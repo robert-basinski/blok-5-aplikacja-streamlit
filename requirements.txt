@@ -3,3 +3,4 @@ pandas
 pyarrow
 joblib
 lightgbm
+scikit-learn
