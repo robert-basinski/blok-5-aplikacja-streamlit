@@ -14,11 +14,10 @@ st.set_page_config(
 )
 
 APP_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = APP_DIR.parent
-BLOCK4_DIR = PROJECT_ROOT / "4_Wdrozenie_i_uzycie_modelu"
+PROJECT_ROOT = APP_DIR
 
-INPUT_MODEL_PACKAGE_DIR = BLOCK4_DIR / "input_model_package"
-OUTPUTS_DIR = BLOCK4_DIR / "outputs_dzien_stacja"
+INPUT_MODEL_PACKAGE_DIR = APP_DIR / "input_model_package"
+OUTPUTS_DIR = APP_DIR / "outputs_dzien_stacja"
 
 APP_HANDOFF_PATH = OUTPUTS_DIR / "b4u_05_app_handoff.json"
 PREDICTIONS_FOR_APP_PATH = OUTPUTS_DIR / "b4u_05_predictions_for_app.parquet"
