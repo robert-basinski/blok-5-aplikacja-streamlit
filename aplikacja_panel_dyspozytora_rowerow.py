@@ -132,11 +132,11 @@ def format_relocation_label(value: object) -> str:
         return "sprawdź stan stacji"
 
     if label.startswith("deliver "):
-        amount = label.replace("deliver ", "").replace("-", "–")
+        amount = label.replace("deliver ", "").replace("-", "-")
         return f"dowieź {amount} rowerów"
 
     if label.startswith("remove "):
-        amount = label.replace("remove ", "").replace("-", "–")
+        amount = label.replace("remove ", "").replace("-", "-")
         return f"zabierz {amount} rowerów"
 
     return label
@@ -494,15 +494,198 @@ if not available_dates:
 
 st.markdown(
     """
-    <div style="margin-bottom:1.4rem;">
-        <div style="font-size:2.4rem; font-weight:800; line-height:1.15; color:#111827; margin-bottom:0.45rem;">
-            Panel dyspozytora relokacji rowerów
-        </div>
-        <div style="font-size:1rem; color:#6b7280; line-height:1.45;">
-            Plan dnia, lista działań, mikrostrefy, mapa, karty kierowcy i feedback z terenu.
-        </div>
-    </div>
-    """,
+<style>
+div[data-testid="stTabs"] {
+    margin-top: 0.9rem;
+}
+
+div[data-testid="stTabs"] div[role="tablist"] {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.05rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1.05rem;
+    margin-top: 1rem;
+    margin-bottom: 1.35rem;
+}
+
+div[data-testid="stTabs"] button[role="tab"] {
+    position: relative;
+    width: 100%;
+    height: 1.8rem;
+    min-height: 12.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.055);
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.18s ease;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.10);
+}
+
+div[data-testid="stTabs"] button[role="tab"] p {
+    position: absolute;
+    left: 1.55rem;
+    right: 1.55rem;
+    top: 5.9rem;
+    margin: 0;
+    font-size: 1.18rem;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #0f172a;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 3;
+}
+
+div[data-testid="stTabs"] button[role="tab"]::before {
+    position: absolute;
+    top: 0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4.25rem;
+    height: 4.25rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.65rem;
+    font-weight: 900;
+    z-index: 2;
+}
+
+div[data-testid="stTabs"] button[role="tab"]::after {
+    position: absolute;
+    left: 1.55rem;
+    right: 1.55rem;
+    top: 8.15rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #64748b;
+    text-align: left;
+    white-space: pre-line;
+    z-index: 2;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1) {
+    border-bottom: 3px solid #ef4444;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1)::before {
+    content: "📅";
+    background: #fee2e2;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1)::after {
+    content: "Zobacz priorytety relokacji,\\A rekomendacje działań i kluczowe\\A informacje na dzisiaj.";
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2) {
+    border-bottom: 3px solid #1d8bea;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2)::before {
+    content: "👤";
+    background: #dbeafe;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2)::after {
+    content: "Sprawdź swoje zadania, trasę\\A dnia i szczegóły realizacji\\A relokacji.";
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3) {
+    border-bottom: 3px solid #22c55e;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3)::before {
+    content: "📈";
+    color: #22c55e;
+    background: #dcfce7;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3)::after {
+    content: "Monitoruj postęp realizacji zadań\\A i analizuj wyniki działań\\A w terenie.";
+}
+
+div[data-testid="stTabs"] button[role="tab"] span::after {
+    content: "📈";
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1.05rem;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    font-weight: 700;
+    background: #ffffff;
+    z-index: 4;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1) span::after {
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2) span::after {
+    color: #1d8bea;
+    border: 1px solid #bfdbfe;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3) span::after {
+    color: #22c55e;
+    border: 1px solid #bbf7d0;
+}
+
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.10);
+}
+
+@media (max-width: 1100px) {
+    div[data-testid="stTabs"] div[role="tablist"] {
+        grid-template-columns: 1fr;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"] {
+        height: 14.5rem;
+        min-height: 14.5rem;
+    }
+}
+</style>
+
+</style>
+
+<div style="border:1px solid #cbd5e1; border-radius:22px; background:linear-gradient(135deg,#ffffff 0%,#f8fafc 100%); padding:1.25rem 1.45rem; margin-bottom:0.1rem; box-shadow:0 12px 30px rgba(15,23,42,0.06);">
+<div style="display:flex; align-items:center; justify-content:space-between; gap:1.5rem;">
+<div style="min-width:0;">
+<div style="font-size:2rem; font-weight:850; line-height:1.15; color:#0f172a; letter-spacing:-0.025em; white-space:nowrap;">Panel dyspozytora relokacji rowerów</div>
+<div style="font-size:1.02rem; color:#64748b; line-height:1.45; margin-top:0.45rem; white-space:nowrap;">Operacyjny system planowania, obsługi kierowcy i kontroli realizacji zadań.</div>
+</div>
+<div style="min-width:170px; height:88px; position:relative;">
+<svg width="170" height="88" viewBox="0 0 170 88" xmlns="http://www.w3.org/2000/svg" style="position:absolute; right:0; bottom:0;">
+<rect x="76" y="18" width="92" height="62" rx="18" fill="#f1f5f9"/>
+<rect x="112" y="32" width="17" height="48" rx="3" fill="#dbe3ec"/>
+<rect x="134" y="44" width="20" height="36" rx="3" fill="#dbe3ec"/>
+<circle cx="50" cy="62" r="18" fill="none" stroke="#334155" stroke-width="4"/>
+<circle cx="104" cy="62" r="18" fill="none" stroke="#334155" stroke-width="4"/>
+<path d="M50 62 L72 38 L90 62 L66 62 L84 42 L104 62" fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M72 38 L66 29" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+<path d="M84 42 L100 34" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+<path d="M98 34 H112" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+</svg>
+</div>
+</div>
+</div>
+""",
     unsafe_allow_html=True,
 )
 
@@ -535,7 +718,7 @@ with st.sidebar:
         "brak jednoznacznego sygnału",
     ]
 
-    selected_microzone = st.selectbox("Mikrostrefa", options=microzone_options, index=0)
+    selected_microzone = st.selectbox("Rejon miasta", options=microzone_options, index=0)
     selected_priority = st.selectbox("Pilność", options=priority_options, index=0)
     selected_problem = st.selectbox("Typ problemu", options=problem_options, index=0)
 
@@ -545,19 +728,11 @@ with st.sidebar:
         "Telefon — 1 kolumna": 1,
     }
 
-    selected_card_layout = st.selectbox(
-        "Widok ekranu",
-        options=list(card_layout_options.keys()),
-        index=0,
-    )
-
-    cards_per_row = card_layout_options[selected_card_layout]
+    cards_per_row = 3
 
     kpi_cards_per_row = 5 if cards_per_row == 3 else cards_per_row
 
     st.divider()
-    st.caption("Widok operacyjny dla dyspozytora i kierowcy")
-
 
 daily_actions_df = (
     map_station_df.loc[map_station_df["activity_date"] == selected_date_ts]
@@ -604,22 +779,17 @@ daily_driver_df = (
     .reset_index(drop=True)
 )
 
-tab_plan, tab_actions, tab_microzones, tab_map, tab_driver, tab_station, tab_feedback, tab_technical = st.tabs(
+tab_plan, tab_driver, tab_feedback = st.tabs(
     [
-        "Plan dnia",
-        "Lista działań",
-        "Mikrostrefy",
-        "Mapa",
+        "Plan operacyjny",
         "Karta kierowcy",
-        "Szczegóły stacji",
-        "Feedback",
-        "Model i dane",
+        "Status realizacji",
     ]
 )
 
 
 with tab_plan:
-    st.subheader("Plan dnia")
+    st.subheader("Plan operacyjny")
 
     daily_plan_metrics = build_daily_plan_metrics(daily_actions_df)
 
@@ -631,13 +801,15 @@ with tab_plan:
 
     st.markdown(
         f"""
-        <div style="padding: 1.1rem 1.3rem; border: 1px solid #e5e7eb; border-radius: 18px; background: #f9fafb; margin-bottom: 1.2rem;">
-            <div style="font-size: 0.95rem; color: #6b7280; margin-bottom: 0.35rem;">Plan operacyjny na {selected_date}</div>
-            <div style="font-size: 1.2rem; font-weight: 700; color: #111827; margin-bottom: 0.35rem;">
-                                Widok obejmuje {daily_plan_metrics["total_station_count"]} stacji po aktualnych filtrach.
+        <div style="padding:1rem 1.2rem; border:1px solid #e5e7eb; border-radius:18px; background:#f9fafb; margin-bottom:1rem;">
+            <div style="font-size:0.9rem; color:#6b7280; margin-bottom:0.35rem;">Plan operacyjny na {selected_date}</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#111827; margin-bottom:0.35rem;">
+                Widok obejmuje {daily_plan_metrics["total_station_count"]} stacji po aktualnych filtrach.
             </div>
-            <div style="font-size: 1rem; color: #374151;">
-                Główne ryzyko: <b>{daily_plan_metrics["main_risk_label"]}</b>. Szacowana relokacja: <b>{daily_plan_metrics["relocation_sum"]} rowerów</b>. Potencjał operacyjny: <b>{format_number(daily_plan_metrics["expected_impact_sum"])}</b>.
+            <div style="font-size:0.98rem; color:#374151;">
+                Główne ryzyko: <b>{daily_plan_metrics["main_risk_label"]}</b>. 
+                Szacowana relokacja: <b>{daily_plan_metrics["relocation_sum"]} rowerów</b>. 
+                Potencjał operacyjny: <b>{format_number(daily_plan_metrics["expected_impact_sum"])}</b>.
             </div>
         </div>
         """,
@@ -656,7 +828,6 @@ with tab_plan:
             "value": format_number(bike_shortage_count),
             "caption": "Stacje z ryzykiem braku rowerów",
             "tone": "danger",
-            "help_text": "Liczba stacji w aktualnym widoku, dla których głównym problemem jest ryzyko braku rowerów.",
         },
         {
             "title": "Do sprawdzenia",
@@ -687,439 +858,303 @@ with tab_plan:
         ):
             with kpi_column:
                 render_kpi_card(**kpi_item)
-        
-    st.markdown("### Najważniejsze działania")
 
-    top_cards_df = daily_actions_view_df.head(6).copy()
-
-    if top_cards_df.empty:
+    if daily_actions_df.empty:
         st.info("Brak działań dla wybranych filtrów.")
     else:
-        for row_index in range(0, len(top_cards_df), cards_per_row):
-            card_columns = st.columns(cards_per_row)
+        st.markdown("### Rejony miasta")
 
-            for card_column, (_, row) in zip(
-                card_columns,
-                top_cards_df.iloc[row_index:row_index + cards_per_row].iterrows(),
-            ):
-                with card_column:
-                    with st.container(border=True):
-                        render_daily_action_card(row)
+        plan_region_source_df = daily_actions_df.copy()
 
-    st.markdown("### Lista priorytetowych stacji")
+        plan_region_source_df["deliver_units_for_region"] = 0
+        plan_region_source_df["remove_units_for_region"] = 0
 
-    priority_table_df = daily_actions_view_df.head(40).copy()
+        plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "deliver_bikes",
+            "deliver_units_for_region",
+        ] = plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "deliver_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
 
-    st.dataframe(
-        priority_table_df,
-        width="stretch",
-        hide_index=True,
-        column_config={
-            "Lp.": st.column_config.NumberColumn("Lp.", width=35),
-            "Stacja": st.column_config.TextColumn("Stacja", width=145),
-            "Mikrostrefa": st.column_config.TextColumn("Mikrostrefa", width="small"),
-            "Pilność": st.column_config.TextColumn("Pilność", width="small"),
-            "Co grozi": st.column_config.TextColumn("Co grozi", width="medium"),
-            "Zalecane działanie": st.column_config.TextColumn("Zalecane działanie", width="medium"),
-            "Szacowana relokacja": st.column_config.TextColumn("Szacowana relokacja", width="medium"),
-            "Godzina ryzyka": st.column_config.TextColumn("Godzina ryzyka", width="small"),
-            "Pewność": st.column_config.TextColumn("Pewność", width="small"),
-            "Potencjał": st.column_config.NumberColumn("Potencjał", format="%.2f", width="small"),
-        },
-    )
+        plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "remove_bikes",
+            "remove_units_for_region",
+        ] = plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "remove_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
 
-
-with tab_actions:
-    st.subheader("Lista działań")
-
-    st.caption(
-        f"Pełna lista działań dla aktualnych filtrów: {format_number(len(daily_actions_view_df))} stacji."
-    )
-
-    if cards_per_row == 1:
-        action_list_columns = [
-            "Lp.",
-            "Stacja",
-            "Szacowana relokacja",
-            "Godzina ryzyka",
-        ]
-
-        action_list_df = daily_actions_view_df[action_list_columns].copy()
-
-        action_list_df = action_list_df.rename(
-            columns={
-                "Szacowana relokacja": "Relokacja",
-                "Godzina ryzyka": "Godzina",
-            }
+        plan_region_table_df = (
+            plan_region_source_df.groupby("microzone_id", as_index=False)
+            .agg(
+                station_count=("microzone_id", "count"),
+                estimated_deliver_units=("deliver_units_for_region", "sum"),
+                estimated_remove_units=("remove_units_for_region", "sum"),
+                expected_business_impact=("expected_business_impact", "sum"),
+                top_daily_plan_rank=("daily_plan_rank", "min"),
+            )
+            .rename(
+                columns={
+                    "microzone_id": "Rejon miasta",
+                    "station_count": "Stacje do obsługi",
+                    "estimated_deliver_units": "Dowieźć",
+                    "estimated_remove_units": "Zabrać",
+                    "expected_business_impact": "Potencjał",
+                    "top_daily_plan_rank": "Najwyższy priorytet",
+                }
+            )
         )
 
-        st.dataframe(
-            action_list_df,
-            width="stretch",
-            hide_index=True,
-            column_config={
-                "Lp.": st.column_config.NumberColumn("Lp.", width=35),
-                "Stacja": st.column_config.TextColumn("Stacja", width=145),
-                "Relokacja": st.column_config.TextColumn("Relokacja", width=190),
-                "Godzina": st.column_config.TextColumn("Godzina", width=90),
-            },
-        )
-    else:
-        action_list_columns = [
-            "Lp.",
-            "Stacja",
-            "Pilność",
-            "Szacowana relokacja",
-            "Godzina ryzyka",
-            "Potencjał",
-        ]
-
-        action_list_df = daily_actions_view_df[action_list_columns].copy()
-
-        action_list_df = action_list_df.rename(
-            columns={
-                "Szacowana relokacja": "Relokacja",
-                "Godzina ryzyka": "Godzina",
-            }
+        plan_region_table_df["Liczba stacji"] = plan_region_table_df["Stacje do obsługi"]
+        plan_region_table_df["Bilans"] = (
+            plan_region_table_df["Zabrać"] - plan_region_table_df["Dowieźć"]
         )
 
-        st.dataframe(
-            action_list_df,
-            width="stretch",
-            hide_index=True,
-            column_config={
-                "Lp.": st.column_config.NumberColumn("Lp.", width=35),
-                "Stacja": st.column_config.TextColumn("Stacja", width=145),
-                "Pilność": st.column_config.TextColumn("Pilność", width=115),
-                "Relokacja": st.column_config.TextColumn("Relokacja", width=190),
-                "Godzina": st.column_config.TextColumn("Godzina", width=90),
-                "Potencjał": st.column_config.NumberColumn("Potencjał", format="%.2f", width=95),
-            },
-        )
+        plan_region_table_df["Kierunek"] = "zbilansowany"
+        plan_region_table_df.loc[
+            plan_region_table_df["Bilans"] < 0,
+            "Kierunek",
+        ] = "potrzeba dowozu"
+        plan_region_table_df.loc[
+            plan_region_table_df["Bilans"] > 0,
+            "Kierunek",
+        ] = "potrzeba odbioru"
 
-with tab_microzones:
-    st.subheader("Mikrostrefy")
-
-    if "activity_date" in microzone_summary_df.columns:
-        daily_microzones_df = (
-            microzone_summary_df.loc[microzone_summary_df["activity_date"] == selected_date_ts]
+        plan_region_table_df = (
+            plan_region_table_df.sort_values(
+                ["Dowieźć", "Zabrać", "Bilans", "Potencjał"],
+                ascending=[False, False, True, False],
+            )
+            .head(100)
             .copy()
             .reset_index(drop=True)
         )
-    else:
-        daily_microzones_df = microzone_summary_df.copy()
 
-    if daily_microzones_df.empty:
-        st.info("Brak danych mikrostref dla wybranej daty.")
-    else:
-        microzone_view_df = daily_microzones_df.copy()
+        plan_region_table_df["Potencjał"] = plan_region_table_df["Potencjał"].round(2)
 
-        microzone_view_df["Stacje do obsługi"] = (
-            microzone_view_df["stations_to_deliver"].fillna(0)
-            + microzone_view_df["stations_to_remove"].fillna(0)
-            + microzone_view_df["stations_to_check"].fillna(0)
-        ).astype(int)
+        plan_region_columns = [
+            "Rejon miasta",
+            "Liczba stacji",
+            "Stacje do obsługi",
+            "Dowieźć",
+            "Zabrać",
+            "Bilans",
+            "Kierunek",
+        ]
 
-        microzone_direction_labels = {
-            "net_delivery_need": "potrzeba dowozu",
-            "net_removal_need": "potrzeba odbioru",
-            "balanced": "zbilansowana",
-        }
-
-        microzone_view_df["Kierunek"] = (
-            microzone_view_df["microzone_balance_direction"]
-            .map(microzone_direction_labels)
-            .fillna(microzone_view_df["microzone_balance_direction"])
-        )
-
-        microzone_view_df = microzone_view_df.rename(
-            columns={
-                "microzone_id": "Mikrostrefa",
-                "station_count": "Liczba stacji",
-                "estimated_deliver_units": "Dowieźć",
-                "estimated_remove_units": "Zabrać",
-                "microzone_balance": "Bilans",
-                "microzone_expected_business_impact": "Potencjał",
-                "top_daily_plan_rank": "Najwyższy priorytet",
-            }
-        )
-
-        if cards_per_row == 1:
-            microzone_view_columns = [
-                "Mikrostrefa",
-                "Dowieźć",
-                "Zabrać",
-                "Bilans",
-                "Kierunek",
-            ]
-
-            microzone_column_config = {
-                "Mikrostrefa": st.column_config.TextColumn("Mikrostrefa", width=105),
-                "Dowieźć": st.column_config.NumberColumn("Dowieźć", width=75),
-                "Zabrać": st.column_config.NumberColumn("Zabrać", width=75),
-                "Bilans": st.column_config.NumberColumn("Bilans", width=75),
-                "Kierunek": st.column_config.TextColumn("Kierunek", width=140),
-            }
-        else:
-            microzone_view_columns = [
-                "Mikrostrefa",
-                "Liczba stacji",
-                "Stacje do obsługi",
-                "Dowieźć",
-                "Zabrać",
-                "Bilans",
-                "Kierunek",
-                "Potencjał",
-                "Najwyższy priorytet",
-            ]
-
-            microzone_column_config = {
-                "Mikrostrefa": st.column_config.TextColumn("Mikrostrefa", width=110),
+        plan_region_event = st.dataframe(
+            plan_region_table_df[plan_region_columns],
+            width="stretch",
+            height=300,
+            hide_index=True,
+            key="plan_region_table",
+            on_select="rerun",
+            selection_mode="single-row",
+            column_config={
+                "Rejon miasta": st.column_config.TextColumn("Rejon miasta", width=125),
                 "Liczba stacji": st.column_config.NumberColumn("Liczba stacji", width=95),
                 "Stacje do obsługi": st.column_config.NumberColumn("Stacje do obsługi", width=130),
                 "Dowieźć": st.column_config.NumberColumn("Dowieźć", width=85),
                 "Zabrać": st.column_config.NumberColumn("Zabrać", width=85),
                 "Bilans": st.column_config.NumberColumn("Bilans", width=85),
                 "Kierunek": st.column_config.TextColumn("Kierunek", width=150),
-                "Potencjał": st.column_config.NumberColumn("Potencjał", format="%.2f", width=105),
-                "Najwyższy priorytet": st.column_config.NumberColumn("Najwyższy priorytet", width=130),
-            }
+            },
+        )
 
-        microzone_view_df = (
-            microzone_view_df[microzone_view_columns]
-            .sort_values(
-                ["Dowieźć", "Zabrać", "Bilans"],
-                ascending=[False, False, True],
+        selected_plan_rows = plan_region_event.selection.rows
+
+        selected_plan_region = None
+        if selected_plan_rows:
+            selected_plan_region = str(
+                plan_region_table_df.iloc[selected_plan_rows[0]]["Rejon miasta"]
             )
-            .head(100)
-            .copy()
+
+        if selected_plan_region:
+            plan_scope_df = daily_actions_df.loc[
+                daily_actions_df["microzone_id"].astype(str) == selected_plan_region
+            ].copy()
+            plan_scope_label = f"Wybrany rejon: {selected_plan_region}"
+        else:
+            plan_scope_df = daily_actions_df.copy()
+            plan_scope_label = "Wszystkie rejony z aktualnych filtrów"
+
+        plan_scope_view_df = build_operational_view(plan_scope_df)
+
+        st.markdown("### Kolejność zadań")
+
+        if "plan_order_mode" not in st.session_state:
+            st.session_state["plan_order_mode"] = "impact"
+
+        order_col_1, order_col_2, order_col_3 = st.columns(3)
+
+        with order_col_1:
+            if st.button(
+                "Potencjał operacyjny",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "impact" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "impact"
+                st.rerun()
+
+        with order_col_2:
+            if st.button(
+                "Pilność + godzina",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "priority" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "priority"
+                st.rerun()
+
+        with order_col_3:
+            if st.button(
+                "Godzina ryzyka",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "hour" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "hour"
+                st.rerun()
+
+        priority_sort_map = {
+            "bardzo wysoki": 1,
+            "wysoki": 2,
+            "średni": 3,
+            "niski": 4,
+        }
+
+        if not plan_scope_view_df.empty:
+            plan_scope_view_df["priority_sort"] = (
+                plan_scope_view_df["Pilność"]
+                .map(priority_sort_map)
+                .fillna(99)
+                .astype(int)
+            )
+
+            plan_scope_view_df["risk_hour_sort"] = pd.to_datetime(
+                plan_scope_view_df["Godzina ryzyka"].astype(str),
+                format="%H:%M",
+                errors="coerce",
+            )
+
+            if st.session_state["plan_order_mode"] == "priority":
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["priority_sort", "risk_hour_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            elif st.session_state["plan_order_mode"] == "hour":
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["risk_hour_sort", "priority_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            else:
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["Potencjał", "priority_sort", "risk_hour_sort", "Lp."],
+                    ascending=[False, True, True, True],
+                ).copy()
+
+            plan_scope_view_df = (
+                plan_scope_view_df.drop(
+                    columns=["priority_sort", "risk_hour_sort"],
+                    errors="ignore",
+                )
+                .reset_index(drop=True)
+            )
+
+        plan_station_count = int(plan_scope_df.shape[0])
+        plan_deliver_sum = int(
+            plan_scope_df.loc[
+                plan_scope_df["recommended_action"] == "deliver_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        plan_remove_sum = int(
+            plan_scope_df.loc[
+                plan_scope_df["recommended_action"] == "remove_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        plan_balance = plan_remove_sum - plan_deliver_sum
+
+        st.markdown("### Widok wybranego zakresu")
+        st.caption(plan_scope_label)
+
+        st.markdown(
+            f"""
+            <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0.7rem; margin:0.7rem 0 0.8rem 0;">
+                <div style="border:1px solid #e5e7eb; border-radius:14px; padding:0.65rem 0.85rem; background:#f9fafb;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Stacje</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_station_count}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">po aktualnym wyborze</div>
+                </div>
+                <div style="border:1px solid #fed7aa; border-radius:14px; padding:0.65rem 0.85rem; background:#fff7ed;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Dowieźć</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_deliver_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #bfdbfe; border-radius:14px; padding:0.65rem 0.85rem; background:#eff6ff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Zabrać</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_remove_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #d1d5db; border-radius:14px; padding:0.65rem 0.85rem; background:#ffffff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Bilans</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_balance}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">ujemny = potrzeba dowozu</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
-        if "Potencjał" in microzone_view_df.columns:
-            microzone_view_df["Potencjał"] = microzone_view_df["Potencjał"].round(2)
+        st.markdown("### Mapa stacji")
 
-        st.caption(
-            f"Ranking mikrostref dla aktualnej daty: {format_number(len(microzone_view_df))} mikrostref w widoku."
-        )
-
-        st.dataframe(
-            microzone_view_df,
-            width="stretch",
-            hide_index=True,
-            column_config=microzone_column_config,
-        )
-
-    st.markdown("### Pary kompensacyjne")
-
-    if local_pairs_df.empty:
-        st.info("Brak lokalnych par dawca–biorca w aktualnym przebiegu danych.")
-    else:
-        st.dataframe(
-            local_pairs_df,
-            width="stretch",
-            hide_index=True,
-        )
-
-with tab_map:
-    st.subheader("Mapa działań")
-
-    st.caption(
-        "Mapa pokazuje stacje z aktualnego widoku filtrów. Punkty są posortowane według priorytetu planu dnia."
-    )
-
-    st.markdown(
-        "<div style='display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin:0.4rem 0 1rem 0;'>"
-        "<span style='font-weight:700; color:#374151;'>Legenda pilności:</span>"
-        "<span style='display:inline-flex; align-items:center; gap:0.35rem; padding:0.25rem 0.55rem; border-radius:999px; background:#fee2e2; color:#991b1b; border:1px solid #fecaca; font-weight:700;'>"
-        "<span style='width:0.7rem; height:0.7rem; border-radius:999px; background:red; display:inline-block;'></span>"
-        "bardzo wysoki"
-        "</span>"
-        "<span style='display:inline-flex; align-items:center; gap:0.35rem; padding:0.25rem 0.55rem; border-radius:999px; background:#ffedd5; color:#9a3412; border:1px solid #fed7aa; font-weight:700;'>"
-        "<span style='width:0.7rem; height:0.7rem; border-radius:999px; background:orange; display:inline-block;'></span>"
-        "wysoki"
-        "</span>"
-        "<span style='display:inline-flex; align-items:center; gap:0.35rem; padding:0.25rem 0.55rem; border-radius:999px; background:#dbeafe; color:#1d4ed8; border:1px solid #bfdbfe; font-weight:700;'>"
-        "<span style='width:0.7rem; height:0.7rem; border-radius:999px; background:blue; display:inline-block;'></span>"
-        "średni"
-        "</span>"
-        "<span style='display:inline-flex; align-items:center; gap:0.35rem; padding:0.25rem 0.55rem; border-radius:999px; background:#f3f4f6; color:#374151; border:1px solid #d1d5db; font-weight:700;'>"
-        "<span style='width:0.7rem; height:0.7rem; border-radius:999px; background:gray; display:inline-block;'></span>"
-        "niski"
-        "</span>"
-        "</div>",
-        unsafe_allow_html=True,
-    )
-
-    if daily_actions_df.empty:
-        st.info("Brak stacji do pokazania na mapie dla aktualnych filtrów.")
-    else:
         try:
-            station_action_map = build_station_action_map(daily_actions_df)
+            station_action_map = build_station_action_map(plan_scope_df)
             map_html = station_action_map.get_root().render()
-            components.html(map_html, height=650, scrolling=True)
+            components.html(map_html, height=480, scrolling=False)
         except Exception as exc:
-            st.warning("Nie udało się zbudować mapy działań dla aktualnego widoku.")
+            st.warning("Nie udało się zbudować mapy stacji dla aktualnego widoku.")
             st.error(str(exc))
 
-    st.markdown("### Połączenia relokacyjne")
+        st.markdown("### Stacje do obsługi")
 
-    if relocation_line_df.empty:
-        st.info("Dla wybranego dnia operacyjnego nie wyznaczono par stacja dawca → stacja biorca.")
-    else:
+        plan_task_columns = [
+            "Lp.",
+            "Stacja",
+            "Mikrostrefa",
+            "Pilność",
+            "Zalecane działanie",
+            "Szacowana relokacja",
+            "Godzina ryzyka",
+            "Potencjał",
+        ]
+
+        plan_task_columns = [
+            column_name
+            for column_name in plan_task_columns
+            if column_name in plan_scope_view_df.columns
+        ]
+
+        plan_task_df = plan_scope_view_df[plan_task_columns].copy()
+
         st.dataframe(
-            relocation_line_df,
+            plan_task_df,
             width="stretch",
+            height=420,
             hide_index=True,
+            column_config=get_operational_table_column_config(),
         )
 
+        st.markdown("### Szczegóły stacji")
 
-with tab_driver:
-    st.subheader("Karta kierowcy")
-
-    if daily_actions_view_df.empty:
-        st.info("Brak kart kierowcy dla wybranej daty.")
-    else:
-        driver_cards_per_row = 1 if cards_per_row == 1 else 2
-        driver_cards_df = daily_actions_view_df.copy().reset_index(drop=True)
-
-        st.caption(
-            f"Lista zadań dla kierowcy: {format_number(len(driver_cards_df))} zadań po aktualnych filtrach."
-        )
-
-        for row_index in range(0, len(driver_cards_df), driver_cards_per_row):
-            card_columns = st.columns(driver_cards_per_row)
-
-            for card_column, (_, row) in zip(
-                card_columns,
-                driver_cards_df.iloc[row_index:row_index + driver_cards_per_row].iterrows(),
-            ):
-                with card_column:
-                    task_rank = row.get("Lp.", row_index + 1)
-                    station_name = row.get("Stacja", "")
-                    microzone_id = row.get("Mikrostrefa", "")
-                    priority_label = row.get("Pilność", "")
-                    action_label = row.get("Zalecane działanie", "")
-                    relocation_label = row.get("Szacowana relokacja", "")
-                    risk_hour = row.get("Godzina ryzyka", "")
-                    confidence_label = row.get("Pewność", "")
-                    impact_value_raw = row.get("Potencjał", "")
-                    impact_value = (
-                        f"{float(impact_value_raw):.2f}"
-                        if pd.notna(impact_value_raw) and impact_value_raw != ""
-                        else "brak danych"
-                    )
-
-                    latest_feedback_status = get_latest_feedback_status(
-                        feedback_log=feedback_log,
-                        task_rank=int(task_rank),
-                        station_name=station_name,
-                    )
-
-                    card_html = (
-                        "<div style='min-height:270px;'>"
-                        f"<div style='font-size:1.45rem; font-weight:800; color:#111827; margin-bottom:0.85rem;'>Zadanie {task_rank}</div>"
-                        f"<div style='font-size:1.05rem; color:#111827; margin-bottom:0.55rem;'><b>Jedź do:</b> {station_name}</div>"
-                        f"<div style='font-size:1rem; color:#6b7280; margin-bottom:0.55rem;'><b>Mikrostrefa:</b> {microzone_id}</div>"
-                        f"<div style='font-size:1.05rem; color:#111827; margin-bottom:0.55rem;'><b>Działanie:</b> {action_label}</div>"
-                        f"<div style='font-size:1.2rem; font-weight:800; color:#111827; margin-bottom:0.65rem;'>{relocation_label}</div>"
-                        f"<div style='font-size:1rem; color:#374151; margin-bottom:0.4rem;'><b>Godzina ryzyka:</b> {risk_hour}</div>"
-                        f"<div style='font-size:1rem; color:#374151; margin-bottom:0.4rem;'><b>Pilność:</b> {priority_label}</div>"
-                        f"<div style='font-size:1rem; color:#374151;'><b>Pewność:</b> {confidence_label} | <b>Potencjał:</b> {impact_value}</div>"
-                        "</div>"
-                    )
-
-                    with st.container(border=True):
-                        st.markdown(card_html, unsafe_allow_html=True)
-
-                        if latest_feedback_status:
-                            status_styles = {
-                                "przyjęte": {
-                                    "background": "#eff6ff",
-                                    "color": "#1d4ed8",
-                                    "border": "#bfdbfe",
-                                },
-                                "wykonane": {
-                                    "background": "#dcfce7",
-                                    "color": "#166534",
-                                    "border": "#bbf7d0",
-                                },
-                                "błąd w terenie": {
-                                    "background": "#fee2e2",
-                                    "color": "#991b1b",
-                                    "border": "#fecaca",
-                                },
-                            }
-
-                            status_style = status_styles.get(
-                                latest_feedback_status,
-                                {
-                                    "background": "#f3f4f6",
-                                    "color": "#374151",
-                                    "border": "#d1d5db",
-                                },
-                            )
-
-                            status_html = (
-                                f"<div style='margin:0.65rem 0 0.85rem 0; padding:0.55rem 0.75rem; "
-                                f"border-radius:0.75rem; background:{status_style['background']}; "
-                                f"color:{status_style['color']}; border:1px solid {status_style['border']}; "
-                                f"font-weight:700;'>Status zadania: {latest_feedback_status}</div>"
-                            )
-
-                            st.markdown(status_html, unsafe_allow_html=True)
-
-                        button_col_1, button_col_2, button_col_3 = st.columns(3)
-
-                        if button_col_1.button(
-                            "Przyjęte",
-                            key=f"accepted_{task_rank}_{row_index}",
-                            use_container_width=True,
-                        ):
-                            append_feedback_entry(
-                                build_feedback_entry(
-                                    status="przyjęte",
-                                    row=row,
-                                    selected_date=selected_date,
-                                )
-                            )
-                            st.rerun()
-
-                        if button_col_2.button(
-                            "Wykonane",
-                            key=f"done_{task_rank}_{row_index}",
-                            use_container_width=True,
-                        ):
-                            append_feedback_entry(
-                                build_feedback_entry(
-                                    status="wykonane",
-                                    row=row,
-                                    selected_date=selected_date,
-                                )
-                            )
-                            st.rerun()
-
-                        if button_col_3.button(
-                            "Błąd",
-                            key=f"issue_{task_rank}_{row_index}",
-                            use_container_width=True,
-                        ):
-                            append_feedback_entry(
-                                build_feedback_entry(
-                                    status="błąd w terenie",
-                                    row=row,
-                                    selected_date=selected_date,
-                                )
-                            )
-                            st.rerun()
-
-with tab_station:
-    st.subheader("Szczegóły stacji")
-
-    if daily_actions_df.empty:
-        st.info("Brak stacji dla aktualnych filtrów.")
-    else:
         station_options = (
-            daily_actions_df[["daily_plan_rank", "station_name"]]
+            plan_scope_df[["daily_plan_rank", "station_name"]]
             .dropna()
             .sort_values("daily_plan_rank")
             .assign(
@@ -1132,215 +1167,464 @@ with tab_station:
             .tolist()
         )
 
-        selected_station_option = st.selectbox(
-            "Wybierz stację",
-            options=station_options,
-            index=0,
+        if station_options:
+            selected_station_option = st.selectbox(
+                "Wybierz stację",
+                options=station_options,
+                index=0,
+                key="plan_station_details_select",
+            )
+
+            selected_station_rank = int(selected_station_option.split(".", 1)[0])
+
+            station_details_df = plan_scope_df.loc[
+                plan_scope_df["daily_plan_rank"] == selected_station_rank
+            ].copy()
+
+            station_view_df = build_operational_view(station_details_df)
+
+            if not station_view_df.empty:
+                station_row = station_view_df.iloc[0]
+                raw_station_row = station_details_df.iloc[0]
+
+                st.markdown(
+                    f"""
+                    <div style="padding:1rem 1.15rem; border:1px solid #e5e7eb; border-radius:18px; background:#f9fafb; margin-top:0.5rem;">
+                        <div style="font-size:1.35rem; font-weight:850; color:#111827; margin-bottom:0.45rem;">
+                            {station_row.get("Lp.", "")}. {station_row.get("Stacja", "")}
+                        </div>
+                        <div style="font-size:0.95rem; color:#6b7280; margin-bottom:0.7rem;">
+                            Rejon miasta: <b>{station_row.get("Mikrostrefa", "")}</b>
+                        </div>
+                        <div style="font-size:1rem; color:#111827; margin-bottom:0.35rem;">
+                            Zalecane działanie: <b>{station_row.get("Zalecane działanie", "")}</b>
+                        </div>
+                        <div style="font-size:1.15rem; font-weight:850; color:#111827; margin:0.45rem 0;">
+                            {station_row.get("Szacowana relokacja", "")}
+                        </div>
+                        <div style="font-size:0.95rem; color:#374151;">
+                            Godzina ryzyka: <b>{station_row.get("Godzina ryzyka", "")}</b> | 
+                            Pilność: <b>{station_row.get("Pilność", "")}</b> | 
+                            Pewność: <b>{station_row.get("Pewność", "")}</b>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+                detail_col_1, detail_col_2, detail_col_3, detail_col_4 = st.columns(4)
+
+                detail_col_1.metric("Potencjał", station_row.get("Potencjał", ""))
+                detail_col_2.metric("Wyjazdy", int(raw_station_row.get("total_departures", 0)))
+                detail_col_3.metric("Zwroty", int(raw_station_row.get("total_returns", 0)))
+                detail_col_4.metric("Bilans dnia", int(raw_station_row.get("daily_net_flow", 0)))
+        else:
+            st.info("Brak stacji do pokazania w szczegółach.")
+
+
+with tab_driver:
+    st.subheader("Karta kierowcy")
+
+    if daily_actions_df.empty or daily_actions_view_df.empty:
+        st.info("Brak zadań kierowcy dla aktualnych filtrów.")
+    else:
+        st.caption(
+            "Najpierw wybierz rejon do obsługi. Po wyborze rejonu poniżej pojawią się konkretne zadania dla kierowcy."
         )
 
-        selected_station_rank = int(selected_station_option.split(".", 1)[0])
+        driver_region_source_df = daily_actions_df.copy()
 
-        station_details_df = daily_actions_df.loc[
-            daily_actions_df["daily_plan_rank"] == selected_station_rank
-        ].copy()
+        driver_region_source_df["deliver_units_for_region"] = 0
+        driver_region_source_df["remove_units_for_region"] = 0
 
-        station_view_df = build_operational_view(station_details_df)
+        driver_region_source_df.loc[
+            driver_region_source_df["recommended_action"] == "deliver_bikes",
+            "deliver_units_for_region",
+        ] = driver_region_source_df.loc[
+            driver_region_source_df["recommended_action"] == "deliver_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
 
-        if station_view_df.empty:
-            st.info("Brak szczegółów dla wybranej stacji.")
+        driver_region_source_df.loc[
+            driver_region_source_df["recommended_action"] == "remove_bikes",
+            "remove_units_for_region",
+        ] = driver_region_source_df.loc[
+            driver_region_source_df["recommended_action"] == "remove_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
+
+        driver_region_table_df = (
+            driver_region_source_df.groupby("microzone_id", as_index=False)
+            .agg(
+                station_count=("microzone_id", "count"),
+                estimated_deliver_units=("deliver_units_for_region", "sum"),
+                estimated_remove_units=("remove_units_for_region", "sum"),
+                expected_business_impact=("expected_business_impact", "sum"),
+                top_daily_plan_rank=("daily_plan_rank", "min"),
+            )
+            .rename(
+                columns={
+                    "microzone_id": "Rejon miasta",
+                    "station_count": "Stacje do obsługi",
+                    "estimated_deliver_units": "Dowieźć",
+                    "estimated_remove_units": "Zabrać",
+                    "expected_business_impact": "Potencjał",
+                    "top_daily_plan_rank": "Najwyższy priorytet",
+                }
+            )
+        )
+
+        driver_region_table_df["Liczba stacji"] = driver_region_table_df["Stacje do obsługi"]
+        driver_region_table_df["Bilans"] = (
+            driver_region_table_df["Zabrać"] - driver_region_table_df["Dowieźć"]
+        )
+
+        driver_region_table_df["Kierunek"] = "zbilansowany"
+        driver_region_table_df.loc[
+            driver_region_table_df["Bilans"] < 0,
+            "Kierunek",
+        ] = "potrzeba dowozu"
+        driver_region_table_df.loc[
+            driver_region_table_df["Bilans"] > 0,
+            "Kierunek",
+        ] = "potrzeba odbioru"
+
+        driver_region_table_df = (
+            driver_region_table_df.sort_values(
+                ["Dowieźć", "Zabrać", "Bilans", "Potencjał"],
+                ascending=[False, False, True, False],
+            )
+            .head(100)
+            .copy()
+            .reset_index(drop=True)
+        )
+
+        driver_region_table_df["Potencjał"] = driver_region_table_df["Potencjał"].round(2)
+
+        driver_region_columns = [
+            "Rejon miasta",
+            "Liczba stacji",
+            "Stacje do obsługi",
+            "Dowieźć",
+            "Zabrać",
+            "Bilans",
+            "Kierunek",
+        ]
+
+        st.markdown("### Plan rejonów dla kierowcy")
+
+        driver_region_event = st.dataframe(
+            driver_region_table_df[driver_region_columns],
+            width="stretch",
+            height=300,
+            hide_index=True,
+            key="driver_region_table",
+            on_select="rerun",
+            selection_mode="single-row",
+            column_config={
+                "Rejon miasta": st.column_config.TextColumn("Rejon miasta", width=125),
+                "Liczba stacji": st.column_config.NumberColumn("Liczba stacji", width=95),
+                "Stacje do obsługi": st.column_config.NumberColumn("Stacje do obsługi", width=130),
+                "Dowieźć": st.column_config.NumberColumn("Dowieźć", width=85),
+                "Zabrać": st.column_config.NumberColumn("Zabrać", width=85),
+                "Bilans": st.column_config.NumberColumn("Bilans", width=85),
+                "Kierunek": st.column_config.TextColumn("Kierunek", width=150),
+            },
+        )
+
+        selected_driver_rows = driver_region_event.selection.rows
+
+        selected_driver_region = None
+        if selected_driver_rows:
+            selected_driver_region = str(
+                driver_region_table_df.iloc[selected_driver_rows[0]]["Rejon miasta"]
+            )
+
+        if selected_driver_region:
+            driver_scope_df = daily_actions_df.loc[
+                daily_actions_df["microzone_id"].astype(str) == selected_driver_region
+            ].copy()
+            driver_scope_label = f"Wybrany rejon: {selected_driver_region}"
         else:
-            station_row = station_view_df.iloc[0]
-            raw_station_row = station_details_df.iloc[0]
+            driver_scope_df = daily_actions_df.copy()
+            driver_scope_label = "Wszystkie rejony z aktualnych filtrów"
 
-            station_rank = station_row.get("Lp.", "")
-            station_name = station_row.get("Stacja", "")
-            microzone_id = station_row.get("Mikrostrefa", "")
-            priority_label = station_row.get("Pilność", "")
-            problem_label = station_row.get("Co grozi", "")
-            action_label = station_row.get("Zalecane działanie", "")
-            relocation_label = station_row.get("Szacowana relokacja", "")
-            risk_hour = station_row.get("Godzina ryzyka", "")
-            confidence_label = station_row.get("Pewność", "")
-            impact_value = station_row.get("Potencjał", "")
+        driver_cards_df = build_operational_view(driver_scope_df)
 
-            station_summary_html = (
-                "<div style='padding:1.2rem 1.35rem; border:1px solid #e5e7eb; "
-                "border-radius:18px; background:#f9fafb; margin-bottom:1rem;'>"
-                f"<div style='font-size:1.65rem; font-weight:850; color:#111827; margin-bottom:0.55rem;'>"
-                f"{station_rank}. {station_name}"
-                "</div>"
-                f"<div style='font-size:1rem; color:#6b7280; margin-bottom:0.9rem;'>"
-                f"Mikrostrefa: <b>{microzone_id}</b>"
-                "</div>"
-                f"<div style='font-size:1.15rem; color:#111827; margin-bottom:0.45rem;'>"
-                f"Co grozi: <b>{problem_label}</b>"
-                "</div>"
-                f"<div style='font-size:1.15rem; color:#111827; margin-bottom:0.45rem;'>"
-                f"Zalecane działanie: <b>{action_label}</b>"
-                "</div>"
-                f"<div style='font-size:1.45rem; font-weight:850; color:#111827; margin:0.65rem 0;'>"
-                f"{relocation_label}"
-                "</div>"
-                f"<div style='font-size:1rem; color:#374151;'>"
-                f"Godzina ryzyka: <b>{risk_hour}</b> | "
-                f"Pilność: <b>{priority_label}</b> | "
-                f"Pewność: <b>{confidence_label}</b>"
-                "</div>"
-                "</div>"
+        st.markdown("### Kolejność zadań kierowcy")
+
+        if "driver_order_mode" not in st.session_state:
+            st.session_state["driver_order_mode"] = "impact"
+
+        driver_order_col_1, driver_order_col_2, driver_order_col_3 = st.columns(3)
+
+        with driver_order_col_1:
+            if st.button(
+                "Potencjał operacyjny",
+                use_container_width=True,
+                type="primary" if st.session_state["driver_order_mode"] == "impact" else "secondary",
+                key="driver_order_impact",
+            ):
+                st.session_state["driver_order_mode"] = "impact"
+                st.rerun()
+
+        with driver_order_col_2:
+            if st.button(
+                "Pilność + godzina",
+                use_container_width=True,
+                type="primary" if st.session_state["driver_order_mode"] == "priority" else "secondary",
+                key="driver_order_priority",
+            ):
+                st.session_state["driver_order_mode"] = "priority"
+                st.rerun()
+
+        with driver_order_col_3:
+            if st.button(
+                "Godzina ryzyka",
+                use_container_width=True,
+                type="primary" if st.session_state["driver_order_mode"] == "hour" else "secondary",
+                key="driver_order_hour",
+            ):
+                st.session_state["driver_order_mode"] = "hour"
+                st.rerun()
+
+        priority_sort_map = {
+            "bardzo wysoki": 1,
+            "wysoki": 2,
+            "średni": 3,
+            "niski": 4,
+        }
+
+        if not driver_cards_df.empty:
+            driver_cards_df["priority_sort"] = (
+                driver_cards_df["Pilność"]
+                .map(priority_sort_map)
+                .fillna(99)
+                .astype(int)
             )
 
-            st.markdown(station_summary_html, unsafe_allow_html=True)
-
-            metric_col_1, metric_col_2, metric_col_3, metric_col_4 = st.columns(4)
-
-            with metric_col_1:
-                st.metric("Potencjał", impact_value)
-
-            with metric_col_2:
-                st.metric(
-                    "Wyjazdy",
-                    int(raw_station_row.get("total_departures", 0)),
-                )
-
-            with metric_col_3:
-                st.metric(
-                    "Zwroty",
-                    int(raw_station_row.get("total_returns", 0)),
-                )
-
-            with metric_col_4:
-                st.metric(
-                    "Bilans dnia",
-                    int(raw_station_row.get("daily_net_flow", 0)),
-                )
-
-            st.markdown("### Decyzja operacyjna")
-
-            decision_df = pd.DataFrame(
-                [
-                    {
-                        "Element": "Stacja",
-                        "Wartość": station_name,
-                    },
-                    {
-                        "Element": "Mikrostrefa",
-                        "Wartość": microzone_id,
-                    },
-                    {
-                        "Element": "Problem",
-                        "Wartość": problem_label,
-                    },
-                    {
-                        "Element": "Działanie",
-                        "Wartość": action_label,
-                    },
-                    {
-                        "Element": "Relokacja",
-                        "Wartość": relocation_label,
-                    },
-                    {
-                        "Element": "Godzina ryzyka",
-                        "Wartość": risk_hour,
-                    },
-                    {
-                        "Element": "Pilność",
-                        "Wartość": priority_label,
-                    },
-                    {
-                        "Element": "Pewność",
-                        "Wartość": confidence_label,
-                    },
-                ]
+            driver_cards_df["risk_hour_sort"] = pd.to_datetime(
+                driver_cards_df["Godzina ryzyka"].astype(str),
+                format="%H:%M",
+                errors="coerce",
             )
 
-            st.dataframe(
-                decision_df,
-                width="stretch",
-                hide_index=True,
-                column_config={
-                    "Element": st.column_config.TextColumn("Element", width=180),
-                    "Wartość": st.column_config.TextColumn("Wartość", width=420),
-                },
+            if st.session_state["driver_order_mode"] == "priority":
+                driver_cards_df = driver_cards_df.sort_values(
+                    ["priority_sort", "risk_hour_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            elif st.session_state["driver_order_mode"] == "hour":
+                driver_cards_df = driver_cards_df.sort_values(
+                    ["risk_hour_sort", "priority_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            else:
+                driver_cards_df = driver_cards_df.sort_values(
+                    ["Potencjał", "priority_sort", "risk_hour_sort", "Lp."],
+                    ascending=[False, True, True, True],
+                ).copy()
+
+            driver_cards_df = (
+                driver_cards_df.drop(
+                    columns=["priority_sort", "risk_hour_sort"],
+                    errors="ignore",
+                )
+                .reset_index(drop=True)
             )
 
-            with st.expander("Diagnostyka techniczna stacji"):
-                technical_df = pd.DataFrame(
-                    [
-                        {
-                            "Pole": "activity_date",
-                            "Wartość": str(raw_station_row.get("activity_date", "")),
-                        },
-                        {
-                            "Pole": "representative_station_id",
-                            "Wartość": str(raw_station_row.get("representative_station_id", "")),
-                        },
-                        {
-                            "Pole": "priority_level",
-                            "Wartość": str(raw_station_row.get("priority_level", "")),
-                        },
-                        {
-                            "Pole": "problem_type",
-                            "Wartość": str(raw_station_row.get("problem_type", "")),
-                        },
-                        {
-                            "Pole": "recommended_action",
-                            "Wartość": str(raw_station_row.get("recommended_action", "")),
-                        },
-                        {
-                            "Pole": "recommendation_confidence_final",
-                            "Wartość": str(raw_station_row.get("recommendation_confidence_final", "")),
-                        },
-                        {
-                            "Pole": "confidence_score",
-                            "Wartość": str(raw_station_row.get("confidence_score", "")),
-                        },
-                        {
-                            "Pole": "confidence_reason",
-                            "Wartość": str(raw_station_row.get("confidence_reason", "")),
-                        },
-                        {
-                            "Pole": "estimated_relocation_units",
-                            "Wartość": str(raw_station_row.get("estimated_relocation_units", "")),
-                        },
-                        {
-                            "Pole": "estimated_relocation_min",
-                            "Wartość": str(raw_station_row.get("estimated_relocation_min", "")),
-                        },
-                        {
-                            "Pole": "estimated_relocation_max",
-                            "Wartość": str(raw_station_row.get("estimated_relocation_max", "")),
-                        },
-                        {
-                            "Pole": "station_latitude",
-                            "Wartość": str(raw_station_row.get("station_latitude", "")),
-                        },
-                        {
-                            "Pole": "station_longitude",
-                            "Wartość": str(raw_station_row.get("station_longitude", "")),
-                        },
-                    ]
-                )
+        driver_station_count = int(driver_scope_df.shape[0])
+        driver_deliver_sum = int(
+            driver_scope_df.loc[
+                driver_scope_df["recommended_action"] == "deliver_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        driver_remove_sum = int(
+            driver_scope_df.loc[
+                driver_scope_df["recommended_action"] == "remove_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        driver_balance = driver_remove_sum - driver_deliver_sum
 
-                st.dataframe(
-                    technical_df,
-                    width="stretch",
-                    hide_index=True,
-                    column_config={
-                        "Pole": st.column_config.TextColumn("Pole", width=260),
-                        "Wartość": st.column_config.TextColumn("Wartość", width=520),
-                    },
-                )                       
+        st.markdown("### Zadania kierowcy")
+        st.caption(
+            f"{driver_scope_label}. Lista obejmuje {format_number(len(driver_cards_df))} zadań."
+        )
 
+        st.markdown(
+            f"""
+            <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0.7rem; margin:0.7rem 0 0.8rem 0;">
+                <div style="border:1px solid #e5e7eb; border-radius:14px; padding:0.65rem 0.85rem; background:#f9fafb;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Stacje</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{driver_station_count}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">do obsługi</div>
+                </div>
+                <div style="border:1px solid #fed7aa; border-radius:14px; padding:0.65rem 0.85rem; background:#fff7ed;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Dowieźć</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{driver_deliver_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #bfdbfe; border-radius:14px; padding:0.65rem 0.85rem; background:#eff6ff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Zabrać</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{driver_remove_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #d1d5db; border-radius:14px; padding:0.65rem 0.85rem; background:#ffffff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Bilans</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{driver_balance}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">ujemny = dowóz</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        if driver_cards_df.empty:
+            st.info("Brak zadań kierowcy dla wybranego rejonu.")
+        else:
+            driver_cards_per_row = 1 if cards_per_row == 1 else 2
+
+            for row_index in range(0, len(driver_cards_df), driver_cards_per_row):
+                card_columns = st.columns(driver_cards_per_row)
+
+                for card_column, (_, row) in zip(
+                    card_columns,
+                    driver_cards_df.iloc[row_index:row_index + driver_cards_per_row].iterrows(),
+                ):
+                    with card_column:
+                        task_rank = row.get("Lp.", row_index + 1)
+                        station_name = row.get("Stacja", "")
+                        microzone_id = row.get("Mikrostrefa", "")
+                        priority_label = row.get("Pilność", "")
+                        action_label = row.get("Zalecane działanie", "")
+                        relocation_label = row.get("Szacowana relokacja", "")
+                        risk_hour = row.get("Godzina ryzyka", "")
+                        confidence_label = row.get("Pewność", "")
+                        impact_value_raw = row.get("Potencjał", "")
+                        impact_value = (
+                            f"{float(impact_value_raw):.2f}"
+                            if pd.notna(impact_value_raw) and impact_value_raw != ""
+                            else "brak danych"
+                        )
+
+                        latest_feedback_status = get_latest_feedback_status(
+                            feedback_log=feedback_log,
+                            task_rank=int(task_rank),
+                            station_name=station_name,
+                        )
+
+                        card_html = (
+                            "<div style='min-height:245px;'>"
+                            f"<div style='font-size:1.35rem; font-weight:850; color:#111827; margin-bottom:0.75rem;'>Zadanie {task_rank}</div>"
+                            f"<div style='font-size:1.05rem; color:#111827; margin-bottom:0.5rem;'><b>Jedź do:</b> {station_name}</div>"
+                            f"<div style='font-size:0.98rem; color:#6b7280; margin-bottom:0.5rem;'><b>Rejon miasta:</b> {microzone_id}</div>"
+                            f"<div style='font-size:1.02rem; color:#111827; margin-bottom:0.5rem;'><b>Działanie:</b> {action_label}</div>"
+                            f"<div style='font-size:1.15rem; font-weight:850; color:#111827; margin-bottom:0.55rem;'>{relocation_label}</div>"
+                            f"<div style='font-size:0.98rem; color:#374151; margin-bottom:0.35rem;'><b>Godzina ryzyka:</b> {risk_hour}</div>"
+                            f"<div style='font-size:0.98rem; color:#374151; margin-bottom:0.35rem;'><b>Pilność:</b> {priority_label}</div>"
+                            f"<div style='font-size:0.98rem; color:#374151;'><b>Pewność:</b> {confidence_label} | <b>Potencjał:</b> {impact_value}</div>"
+                            "</div>"
+                        )
+
+                        with st.container(border=True):
+                            st.markdown(card_html, unsafe_allow_html=True)
+
+                            if latest_feedback_status:
+                                status_styles = {
+                                    "przyjęte": {
+                                        "background": "#eff6ff",
+                                        "color": "#1d4ed8",
+                                        "border": "#bfdbfe",
+                                    },
+                                    "wykonane": {
+                                        "background": "#dcfce7",
+                                        "color": "#166534",
+                                        "border": "#bbf7d0",
+                                    },
+                                    "błąd w terenie": {
+                                        "background": "#fee2e2",
+                                        "color": "#991b1b",
+                                        "border": "#fecaca",
+                                    },
+                                }
+
+                                status_style = status_styles.get(
+                                    latest_feedback_status,
+                                    {
+                                        "background": "#f3f4f6",
+                                        "color": "#374151",
+                                        "border": "#d1d5db",
+                                    },
+                                )
+
+                                status_html = (
+                                    f"<div style='margin:0.55rem 0 0.75rem 0; padding:0.5rem 0.7rem; "
+                                    f"border-radius:0.75rem; background:{status_style['background']}; "
+                                    f"color:{status_style['color']}; border:1px solid {status_style['border']}; "
+                                    f"font-weight:700;'>Status zadania: {latest_feedback_status}</div>"
+                                )
+
+                                st.markdown(status_html, unsafe_allow_html=True)
+
+                            button_col_1, button_col_2, button_col_3 = st.columns(3)
+
+                            if button_col_1.button(
+                                "Przyjęte",
+                                key=f"accepted_{task_rank}_{row_index}",
+                                use_container_width=True,
+                            ):
+                                append_feedback_entry(
+                                    build_feedback_entry(
+                                        status="przyjęte",
+                                        row=row,
+                                        selected_date=selected_date,
+                                    )
+                                )
+                                st.rerun()
+
+                            if button_col_2.button(
+                                "Wykonane",
+                                key=f"done_{task_rank}_{row_index}",
+                                use_container_width=True,
+                            ):
+                                append_feedback_entry(
+                                    build_feedback_entry(
+                                        status="wykonane",
+                                        row=row,
+                                        selected_date=selected_date,
+                                    )
+                                )
+                                st.rerun()
+
+                            if button_col_3.button(
+                                "Błąd",
+                                key=f"issue_{task_rank}_{row_index}",
+                                use_container_width=True,
+                            ):
+                                append_feedback_entry(
+                                    build_feedback_entry(
+                                        status="błąd w terenie",
+                                        row=row,
+                                        selected_date=selected_date,
+                                    )
+                                )
+                                st.rerun()
 
 with tab_feedback:
-    st.subheader("Feedback")
+    st.subheader("Status realizacji")
 
     feedback_entries = feedback_log.get("entries", [])
 
-    st.metric("Liczba zapisanych wpisów feedbacku", len(feedback_entries))
-
     if not feedback_entries:
-        st.info("Brak zapisanych wpisów feedbacku.")
+        st.info("Brak zapisanych statusów z terenu.")
     else:
         feedback_df = pd.DataFrame(feedback_entries).copy()
 
@@ -1357,26 +1641,19 @@ with tab_feedback:
                 na_position="last",
             ).copy()
 
-            feedback_time = (
+            feedback_df["Czas"] = (
                 feedback_df["_sort_time"]
                 .dt.tz_convert("Europe/Warsaw")
                 .dt.strftime("%Y-%m-%d %H:%M")
-            )
-            feedback_time = feedback_time.fillna("")
+            ).fillna("")
         else:
-            feedback_time = pd.Series(
-                [""] * len(feedback_df),
-                index=feedback_df.index,
-            )
+            feedback_df["_sort_time"] = pd.NaT
+            feedback_df["Czas"] = ""
 
-        def get_feedback_series(column_name: str, default_value: str = "") -> pd.Series:
-            if column_name in feedback_df.columns:
-                return feedback_df[column_name].fillna(default_value).astype(str)
-
-            return pd.Series(
-                [default_value] * len(feedback_df),
-                index=feedback_df.index,
-            )
+        def get_feedback_value(row: pd.Series, column_name: str, default_value: str = "") -> str:
+            if column_name in row.index and pd.notna(row[column_name]):
+                return str(row[column_name])
+            return default_value
 
         def format_feedback_task(value: object) -> str:
             try:
@@ -1384,285 +1661,238 @@ with tab_feedback:
             except (TypeError, ValueError):
                 return "Zadanie"
 
-        compact_feedback_df = pd.DataFrame(
-            {
-                "Czas": feedback_time,
-                "Status": get_feedback_series("status"),
-                "Zadanie": get_feedback_series("task_rank").apply(format_feedback_task),
-                "Stacja": get_feedback_series("station_name"),
-                "Relokacja": get_feedback_series("relocation"),
-                "Godzina": get_feedback_series("risk_hour"),
-                "Pewność": get_feedback_series("confidence"),
-            }
+        latest_feedback_df = (
+            feedback_df.sort_values("_sort_time", ascending=False, na_position="last")
+            .drop_duplicates(subset=["task_rank", "station_name"], keep="first")
+            .copy()
         )
+
+        active_region_ids = (
+            latest_feedback_df["microzone_id"]
+            .dropna()
+            .astype(str)
+            .drop_duplicates()
+            .tolist()
+            if "microzone_id" in latest_feedback_df.columns
+            else []
+        )
+
+        if not active_region_ids:
+            st.info("Brak aktywnych rejonów ze statusem realizacji.")
+        else:
+            active_plan_df = daily_actions_df.loc[
+                daily_actions_df["microzone_id"].astype(str).isin(active_region_ids)
+            ].copy()
+
+            active_plan_view_df = build_operational_view(active_plan_df)
+
+            latest_status_map = {}
+
+            for _, feedback_row in latest_feedback_df.iterrows():
+                task_rank = get_feedback_value(feedback_row, "task_rank")
+                station_name = get_feedback_value(feedback_row, "station_name")
+                latest_status_map[(task_rank, station_name)] = {
+                    "status": get_feedback_value(feedback_row, "status", "brak statusu"),
+                    "time": get_feedback_value(feedback_row, "Czas"),
+                }
+
+            status_summary_rows = []
+
+            for region_id in active_region_ids:
+                region_plan_df = active_plan_view_df.loc[
+                    active_plan_view_df["Mikrostrefa"].astype(str) == region_id
+                ].copy()
+
+                if region_plan_df.empty:
+                    continue
+
+                region_total = int(region_plan_df.shape[0])
+                accepted_count = 0
+                done_count = 0
+                issue_count = 0
+
+                for _, task_row in region_plan_df.iterrows():
+                    task_key = (
+                        str(task_row.get("Lp.", "")),
+                        str(task_row.get("Stacja", "")),
+                    )
+
+                    task_status = latest_status_map.get(task_key, {}).get("status", "")
+
+                    if task_status == "przyjęte":
+                        accepted_count += 1
+                    elif task_status == "wykonane":
+                        done_count += 1
+                    elif task_status == "błąd w terenie":
+                        issue_count += 1
+
+                started_count = accepted_count + done_count + issue_count
+                waiting_count = max(region_total - started_count, 0)
+
+                status_summary_rows.append(
+                    {
+                        "Rejon miasta": region_id,
+                        "Stacje w rejonie": region_total,
+                        "Przyjęte": accepted_count,
+                        "Wykonane": done_count,
+                        "Błąd": issue_count,
+                        "Oczekuje": waiting_count,
+                    }
+                )
+
+            region_status_df = pd.DataFrame(status_summary_rows)
+
+            if region_status_df.empty:
+                st.info("Brak aktywnych rejonów do pokazania.")
+            else:
+                total_regions = int(region_status_df.shape[0])
+                total_started = int(
+                    region_status_df["Przyjęte"].sum()
+                    + region_status_df["Wykonane"].sum()
+                    + region_status_df["Błąd"].sum()
+                )
+                total_done = int(region_status_df["Wykonane"].sum())
+                total_waiting = int(region_status_df["Oczekuje"].sum())
+
+                st.markdown(
+                    f"""
+                    <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0.7rem; margin:0.7rem 0 1rem 0;">
+                        <div style="border:1px solid #e5e7eb; border-radius:14px; padding:0.65rem 0.85rem; background:#f9fafb;">
+                            <div style="font-size:0.78rem; color:#6b7280;">Aktywne rejony</div>
+                            <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_regions}</div>
+                            <div style="font-size:0.72rem; color:#6b7280;">z ruchem w terenie</div>
+                        </div>
+                        <div style="border:1px solid #bfdbfe; border-radius:14px; padding:0.65rem 0.85rem; background:#eff6ff;">
+                            <div style="font-size:0.78rem; color:#6b7280;">Podjęte</div>
+                            <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_started}</div>
+                            <div style="font-size:0.72rem; color:#6b7280;">przyjęte / wykonane / błąd</div>
+                        </div>
+                        <div style="border:1px solid #bbf7d0; border-radius:14px; padding:0.65rem 0.85rem; background:#f0fdf4;">
+                            <div style="font-size:0.78rem; color:#6b7280;">Wykonane</div>
+                            <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_done}</div>
+                            <div style="font-size:0.72rem; color:#6b7280;">zamknięte zadania</div>
+                        </div>
+                        <div style="border:1px solid #fed7aa; border-radius:14px; padding:0.65rem 0.85rem; background:#fff7ed;">
+                            <div style="font-size:0.78rem; color:#6b7280;">Oczekuje</div>
+                            <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_waiting}</div>
+                            <div style="font-size:0.72rem; color:#6b7280;">jeszcze bez statusu</div>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+                st.markdown("### Aktywne rejony w realizacji")
+
+                st.dataframe(
+                    region_status_df,
+                    width="stretch",
+                    height=240,
+                    hide_index=True,
+                    column_config={
+                        "Rejon miasta": st.column_config.TextColumn("Rejon miasta", width=125),
+                        "Stacje w rejonie": st.column_config.NumberColumn("Stacje w rejonie", width=125),
+                        "Przyjęte": st.column_config.NumberColumn("Przyjęte", width=95),
+                        "Wykonane": st.column_config.NumberColumn("Wykonane", width=100),
+                        "Błąd": st.column_config.NumberColumn("Błąd", width=80),
+                        "Oczekuje": st.column_config.NumberColumn("Oczekuje", width=100),
+                    },
+                )
+
+                st.markdown("### Szczegóły realizacji według rejonów")
+
+                for _, region_summary_row in region_status_df.iterrows():
+                    region_id = str(region_summary_row["Rejon miasta"])
+
+                    region_plan_df = active_plan_view_df.loc[
+                        active_plan_view_df["Mikrostrefa"].astype(str) == region_id
+                    ].copy()
+
+                    region_task_rows = []
+
+                    for _, task_row in region_plan_df.iterrows():
+                        task_key = (
+                            str(task_row.get("Lp.", "")),
+                            str(task_row.get("Stacja", "")),
+                        )
+
+                        latest_status = latest_status_map.get(task_key, {})
+
+                        region_task_rows.append(
+                            {
+                                "Zadanie": format_feedback_task(task_row.get("Lp.", "")),
+                                "Stacja": task_row.get("Stacja", ""),
+                                "Status": latest_status.get("status", "oczekuje"),
+                                "Czas statusu": latest_status.get("time", ""),
+                                "Relokacja": task_row.get("Szacowana relokacja", ""),
+                                "Godzina ryzyka": task_row.get("Godzina ryzyka", ""),
+                                "Pilność": task_row.get("Pilność", ""),
+                            }
+                        )
+
+                    region_task_status_df = pd.DataFrame(region_task_rows)
+
+                    with st.expander(
+                        f"{region_id} — wykonane: {int(region_summary_row['Wykonane'])}, "
+                        f"przyjęte: {int(region_summary_row['Przyjęte'])}, "
+                        f"oczekuje: {int(region_summary_row['Oczekuje'])}, "
+                        f"błąd: {int(region_summary_row['Błąd'])}"
+                    ):
+                        st.dataframe(
+                            region_task_status_df,
+                            width="stretch",
+                            hide_index=True,
+                            column_config={
+                                "Zadanie": st.column_config.TextColumn("Zadanie", width=100),
+                                "Stacja": st.column_config.TextColumn("Stacja", width=170),
+                                "Status": st.column_config.TextColumn("Status", width=120),
+                                "Czas statusu": st.column_config.TextColumn("Czas statusu", width=140),
+                                "Relokacja": st.column_config.TextColumn("Relokacja", width=180),
+                                "Godzina ryzyka": st.column_config.TextColumn("Godzina ryzyka", width=120),
+                                "Pilność": st.column_config.TextColumn("Pilność", width=120),
+                            },
+                        )
 
         st.markdown("### Ostatnie zgłoszenia z terenu")
 
+        compact_feedback_df = pd.DataFrame(
+            {
+                "Czas": feedback_df["Czas"],
+                "Status": feedback_df["status"].fillna("").astype(str)
+                if "status" in feedback_df.columns
+                else "",
+                "Rejon miasta": feedback_df["microzone_id"].fillna("").astype(str)
+                if "microzone_id" in feedback_df.columns
+                else "",
+                "Zadanie": feedback_df["task_rank"].apply(format_feedback_task)
+                if "task_rank" in feedback_df.columns
+                else "",
+                "Stacja": feedback_df["station_name"].fillna("").astype(str)
+                if "station_name" in feedback_df.columns
+                else "",
+                "Relokacja": feedback_df["relocation"].fillna("").astype(str)
+                if "relocation" in feedback_df.columns
+                else "",
+                "Godzina": feedback_df["risk_hour"].fillna("").astype(str)
+                if "risk_hour" in feedback_df.columns
+                else "",
+            }
+        )
+
         st.dataframe(
-            compact_feedback_df.head(50),
+            compact_feedback_df.head(30),
             width="stretch",
+            height=260,
             hide_index=True,
             column_config={
                 "Czas": st.column_config.TextColumn("Czas", width=135),
                 "Status": st.column_config.TextColumn("Status", width=120),
-                "Zadanie": st.column_config.TextColumn("Zadanie", width=110),
+                "Rejon miasta": st.column_config.TextColumn("Rejon miasta", width=120),
+                "Zadanie": st.column_config.TextColumn("Zadanie", width=105),
                 "Stacja": st.column_config.TextColumn("Stacja", width=170),
-                "Relokacja": st.column_config.TextColumn("Relokacja", width=190),
+                "Relokacja": st.column_config.TextColumn("Relokacja", width=180),
                 "Godzina": st.column_config.TextColumn("Godzina", width=90),
-                "Pewność": st.column_config.TextColumn("Pewność", width=100),
             },
         )
 
-        with st.expander("Szczegółowy zapis operacyjny"):
-            operational_feedback_df = feedback_df.drop(
-                columns=["_sort_time"],
-                errors="ignore",
-            ).copy()
 
-            if "created_at_utc" in operational_feedback_df.columns:
-                operational_feedback_df["Czas kliknięcia statusu"] = (
-                    pd.to_datetime(
-                        operational_feedback_df["created_at_utc"],
-                        errors="coerce",
-                        utc=True,
-                    )
-                    .dt.tz_convert("Europe/Warsaw")
-                    .dt.strftime("%Y-%m-%d %H:%M")
-                )
-
-            if "activity_date" in operational_feedback_df.columns:
-                operational_feedback_df["Dzień operacyjny z danych"] = pd.to_datetime(
-                    operational_feedback_df["activity_date"],
-                    errors="coerce",
-                ).dt.strftime("%Y-%m-%d")
-
-            column_rename_map = {
-                "task_rank": "Zadanie",
-                "station_name": "Stacja",
-                "microzone_id": "Mikrostrefa",
-                "priority": "Pilność",
-                "problem": "Problem",
-                "recommended_action": "Działanie",
-                "relocation": "Relokacja",
-                "risk_hour": "Godzina ryzyka",
-                "confidence": "Pewność",
-                "status": "Status",
-            }
-
-            operational_feedback_df = operational_feedback_df.rename(
-                columns=column_rename_map
-            )
-
-            display_column_order = [
-                "Czas kliknięcia statusu",
-                "Dzień operacyjny z danych",
-                "Zadanie",
-                "Status",
-                "Stacja",
-                "Mikrostrefa",
-                "Pilność",
-                "Problem",
-                "Działanie",
-                "Relokacja",
-                "Godzina ryzyka",
-                "Pewność",
-            ]
-
-            existing_display_columns = [
-                column
-                for column in display_column_order
-                if column in operational_feedback_df.columns
-            ]
-
-            operational_feedback_df = operational_feedback_df[existing_display_columns]
-
-            st.dataframe(
-                operational_feedback_df,
-                width="stretch",
-                hide_index=True,
-                column_config={
-                    "Czas kliknięcia statusu": st.column_config.TextColumn("Czas kliknięcia statusu", width=175),
-                    "Dzień operacyjny z danych": st.column_config.TextColumn("Dzień operacyjny z danych", width=175),
-                    "Zadanie": st.column_config.NumberColumn("Zadanie", width=85),
-                    "Status": st.column_config.TextColumn("Status", width=120),
-                    "Stacja": st.column_config.TextColumn("Stacja", width=170),
-                    "Mikrostrefa": st.column_config.TextColumn("Mikrostrefa", width=115),
-                    "Pilność": st.column_config.TextColumn("Pilność", width=130),
-                    "Problem": st.column_config.TextColumn("Problem", width=190),
-                    "Działanie": st.column_config.TextColumn("Działanie", width=150),
-                    "Relokacja": st.column_config.TextColumn("Relokacja", width=180),
-                    "Godzina ryzyka": st.column_config.TextColumn("Godzina ryzyka", width=120),
-                    "Pewność": st.column_config.TextColumn("Pewność", width=100),
-                },
-            )
-
-
-with tab_technical:
-    st.subheader("Model i dane")
-
-    st.markdown(
-        """
-        <div style="padding:1.1rem 1.25rem; border:1px solid #bfdbfe; border-radius:18px; background:#eff6ff; margin-bottom:1.2rem;">
-            <div style="font-size:1.15rem; font-weight:800; color:#1e3a8a; margin-bottom:0.45rem;">
-                Charakter aplikacji
-            </div>
-            <div style="font-size:1rem; color:#1f2937; line-height:1.55;">
-                To jest demonstracyjny panel operacyjny oparty na historycznych danych z lat <b>2017–2020</b>.
-                Wybrana data oznacza <b>dzień operacyjny z danych</b>, a nie aktualny dzień live.
-                Feedback i statusy są zapisywane w momencie kliknięcia w aplikacji, dlatego czas kliknięcia może być dzisiejszy,
-                mimo że analizowany dzień pochodzi z danych historycznych.
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    summary_cards = [
-        {
-            "label": "Typ aplikacji",
-            "value": "Symulator operacyjny",
-            "caption": "Panel demonstracyjny, nie system live",
-        },
-        {
-            "label": "Zakres danych",
-            "value": "2017–2020",
-            "caption": "Historyczne dane operacyjne",
-        },
-        {
-            "label": "Tryb pracy",
-            "value": "Replay historyczny",
-            "caption": "Plan dnia dla wybranego dnia z datasetu",
-        },
-    ]
-
-    summary_columns = st.columns(3)
-
-    for summary_column, summary_card in zip(summary_columns, summary_cards):
-        with summary_column:
-            st.markdown(
-                (
-                    "<div style='padding:0.95rem 1rem; border:1px solid #e5e7eb; "
-                    "border-radius:16px; background:#f9fafb; height:8.4rem;'>"
-                    f"<div style='font-size:0.9rem; color:#6b7280; margin-bottom:0.35rem;'>{summary_card['label']}</div>"
-                    f"<div style='font-size:1.25rem; font-weight:800; color:#111827; margin-bottom:0.35rem;'>{summary_card['value']}</div>"
-                    f"<div style='font-size:0.82rem; color:#6b7280; line-height:1.35;'>{summary_card['caption']}</div>"
-                    "</div>"
-                ),
-                unsafe_allow_html=True,
-            )
-
-    st.markdown("### Jak czytać tę aplikację")
-
-    explanation_df = pd.DataFrame(
-        [
-            {
-                "Element": "Dzień operacyjny",
-                "Znaczenie": "Historyczna data z datasetu, dla której budowany jest plan działań.",
-            },
-            {
-                "Element": "Czas kliknięcia statusu",
-                "Znaczenie": "Aktualny czas zapisania feedbacku przez użytkownika aplikacji.",
-            },
-            {
-                "Element": "Plan dnia",
-                "Znaczenie": "Ranking stacji wymagających obsługi w wybranym dniu operacyjnym.",
-            },
-            {
-                "Element": "Karta kierowcy",
-                "Znaczenie": "Prosty widok zadań: gdzie jechać, co zrobić i ile rowerów relokować.",
-            },
-            {
-                "Element": "Feedback",
-                "Znaczenie": "Historia kliknięć statusów zadań zapisanych podczas pracy z aplikacją.",
-            },
-        ]
-    )
-
-    st.dataframe(
-        explanation_df,
-        width="stretch",
-        hide_index=True,
-        column_config={
-            "Element": st.column_config.TextColumn("Element", width=190),
-            "Znaczenie": st.column_config.TextColumn("Znaczenie", width=650),
-        },
-    )
-
-    st.markdown("### Wersja produkcyjna")
-
-    production_items = [
-        {
-            "title": "Dane wejściowe",
-            "text": "Aktualne dane o stacjach, pojemności, przejazdach, pogodzie, kalendarzu i statusach technicznych.",
-        },
-        {
-            "title": "Pipeline",
-            "text": "Automatyczny przepływ: raw data → walidacja → feature engineering → scoring → artefakty → aplikacja.",
-        },
-        {
-            "title": "Monitoring",
-            "text": "Kontrola jakości danych, kompletności artefaktów i zgodności kontraktu aplikacji.",
-        },
-        {
-            "title": "Użycie operacyjne",
-            "text": "Dyspozytor widzi priorytety, a kierowca proste zadania do wykonania.",
-        },
-    ]
-
-    production_columns = st.columns(2)
-
-    for item_index, production_item in enumerate(production_items):
-        with production_columns[item_index % 2]:
-            st.markdown(
-                (
-                    "<div style='padding:0.95rem 1rem; border:1px solid #e5e7eb; "
-                    "border-radius:16px; background:#f9fafb; min-height:7.8rem; margin-bottom:0.85rem;'>"
-                    f"<div style='font-size:1rem; font-weight:800; color:#111827; margin-bottom:0.45rem;'>{production_item['title']}</div>"
-                    f"<div style='font-size:0.9rem; color:#4b5563; line-height:1.45;'>{production_item['text']}</div>"
-                    "</div>"
-                ),
-                unsafe_allow_html=True,
-            )
-
-
-    artifact_summary_df = pd.DataFrame(
-        [
-            {
-                "Artefakt": path.name,
-                "Status": "OK" if path.exists() else "Brak",
-                "Rozmiar bajty": path.stat().st_size if path.exists() else 0,
-            }
-            for path in required_paths
-        ]
-    )
-
-    st.caption(
-        "Techniczny opis zasad działania aplikacji, kontraktu danych i konfiguracji panelu."
-    )
-    with st.expander("Kontrakt aplikacji"):
-        st.json(app_contract)
-
-    st.caption(
-        "Opis ról poszczególnych zakładek oraz głównych użytkowników aplikacji."
-    )
-    with st.expander("Zakładki aplikacji"):
-        st.dataframe(
-            tab_contract_df,
-            width="stretch",
-            hide_index=True,
-        )
-
-    st.caption(
-        "Lista wymaganych plików wejściowych wykorzystywanych przez panel operacyjny."
-    )
-    with st.expander("Artefakty wejściowe"):
-        st.dataframe(
-            artifact_summary_df,
-            width="stretch",
-            hide_index=True,
-            column_config={
-                "Artefakt": st.column_config.TextColumn("Artefakt", width=420),
-                "Status": st.column_config.TextColumn("Status", width=100),
-                "Rozmiar bajty": st.column_config.NumberColumn("Rozmiar bajty", width=140),
-            },
-        )
