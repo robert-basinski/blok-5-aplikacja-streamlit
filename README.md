@@ -170,10 +170,18 @@ app/
 notebooks/
 └── 5_Application_Layer.ipynb
 
+docs/
+└── screenshots/
+
 artifacts/
+└── 3_feature_screening/
+
+app_runtime/
 outputs_dzien_stacja/
 outputs_panel_dyspozytora/
 input_model_package/
+requirements.txt
+README.md
 ```
 ## System Architecture
 
