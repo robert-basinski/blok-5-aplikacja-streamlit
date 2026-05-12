@@ -9,6 +9,8 @@ flowchart TD
     E --> F[Prediction and Risk Scoring]
 
     F --> G[Operational Decision Layer]
+    F --> O[Technical Monitoring Panel]
+
     G --> H[Station Priority Ranking]
     G --> I[Relocation Recommendations]
     G --> J[Microzone Balancing]
@@ -21,11 +23,10 @@ flowchart TD
     K --> M[Execution Status Monitoring]
     K --> N[Interactive Folium Map]
 
-    F --> O[Technical Monitoring Panel]
     O --> P[Model Diagnostics]
     O --> Q[Prediction Inspection]
     O --> R[Data Contract Validation]
 
-````md
-    S[Streamlit Application] --> K
+    S[Streamlit Application Layer] --> K
     S --> O
+```
