@@ -200,9 +200,8 @@ The application uses prepared model and operational artifacts stored in the repo
 ```text
 app/
 ├── app_main.py
-└── pages/
-    ├── 1_Panel_Dyspozytora.py
-    └── 2_Panel_Techniczny.py
+├── 1_Panel_Dyspozytora.py
+└── 2_Panel_Techniczny.py
 
 notebooks/
 ├── 1_EDA_Preprocessing.ipynb
