@@ -2,6 +2,15 @@
 
 End-to-end Machine Learning and operational analytics system for predicting daily bike station risk and supporting bike fleet relocation decisions in a smart city environment.
 
+# AI-Driven Bike Fleet Relocation System
+
+![Python](https://img.shields.io/badge/Python-3.12.8-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Live-red)
+![LightGBM](https://img.shields.io/badge/ML-LightGBM-green)
+![Status](https://img.shields.io/badge/Status-Production--Style-success)
+
+End-to-end Machine Learning and operational analytics system for predicting daily bike station risk and supporting bike fleet relocation decisions in a smart city environment.
+
 ## Live Application
 
 🚴 [Open Live Streamlit Application](https://robert-basinski-system-relokacji.streamlit.app/)
@@ -108,6 +117,18 @@ The project includes:
 - Operational deployment layer
 
 ## Technology Stack
+
+## Core Technologies
+
+- Python 3.12
+- Streamlit
+- LightGBM
+- Pandas
+- Scikit-learn
+- Folium
+- Plotly
+- Parquet
+- GitHub Actions ready architecture
 
 ### Machine Learning & Analytics
 
