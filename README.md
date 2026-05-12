@@ -60,6 +60,19 @@ The system predicts station-level operational risk and supports dispatchers in d
 - Driver support card
 - Operational status monitoring
 
+### Key Operational Capabilities
+
+- Operational bike relocation planning
+- Risk-based station prioritization
+- Microzone balancing strategy
+- Forecast-supported operational recommendations
+- Dispatcher decision support
+- Driver execution workflow
+- Interactive operational monitoring
+- Geospatial operational visualization
+- Real-time style operational dashboard
+- Operational KPI aggregation
+
 ### Technical Monitoring Panel
 
 - Station-level diagnostics
