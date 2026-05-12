@@ -15,7 +15,7 @@ End-to-end Machine Learning and operational analytics system for predicting dail
 
 ### Operational Dashboard
 
-<img src="docs/screenshots/dashboard-main.png" width="850">
+<img src="docs/screenshots/dashboard-main.png" width="600">
 
 ### Operational Plan KPIs
 
@@ -80,7 +80,7 @@ The system predicts station-level operational risk and supports dispatchers in d
 
 ### Key Operational Capabilities
 
-- Operational bike relocation planning
+- Bike relocation planning and prioritization
 - Risk-based station prioritization
 - Microzone balancing strategy
 - Forecast-supported operational recommendations
@@ -162,7 +162,6 @@ The project is structured into six logical workflow blocks:
 - Folium
 - Plotly
 - Parquet
-- GitHub-ready repository architecture
 
 ### Machine Learning & Analytics
 
@@ -223,10 +222,12 @@ config/
 └── scoring_thresholds.json
 
 artifacts/
-└── 3_feature_screening/
+├── model artifacts
+├── feature screening reports
+└── deployment support files
 
 input_model_package/
-├── final model artifact
+├── model artifacts
 ├── inference configuration
 └── feature importance outputs
 
