@@ -105,6 +105,26 @@ The project includes:
 - GitHub
 - Streamlit Cloud
 
+### Data & Engineering
+
+- Parquet
+- Jupyter Notebook
+- GitHub
+- Streamlit Cloud
+
+## How to Run Locally
+
+```bash
+git clone https://github.com/robert-basinski/system-relokacji-rowerow.git
+cd system-relokacji-rowerow
+pip install -r requirements.txt
+streamlit run app/app_main.py
+```
+
+The application uses prepared model and operational artifacts stored in the repository.
+
+## Repository Structure
+
 ## Repository Structure
 
 ```text
