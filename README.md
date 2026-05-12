@@ -132,6 +132,35 @@ outputs_dzien_stacja/
 outputs_panel_dyspozytora/
 input_model_package/
 ```
+## System Architecture
+
+The project is divided into several operational and Machine Learning layers:
+
+### Data Layer
+- Aggregated station analytics
+- Operational parquet datasets
+- Forecast and weather integration
+- Historical station behavior profiles
+
+### Machine Learning Layer
+- Feature engineering
+- Anti-leakage validation
+- Classification modeling
+- LightGBM optimization
+- Time-based validation
+
+### Operational Layer
+- Dispatcher operational planning
+- Station prioritization
+- Relocation recommendations
+- Driver task management
+- Execution monitoring
+
+### Application Layer
+- Streamlit operational dashboard
+- Technical monitoring panel
+- Interactive geospatial visualization
+- Operational KPI reporting
 
 ## Business Goal
 
