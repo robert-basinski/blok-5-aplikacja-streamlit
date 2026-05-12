@@ -26,5 +26,6 @@ flowchart TD
     O --> Q[Prediction Inspection]
     O --> R[Data Contract Validation]
 
+````md
     S[Streamlit Application] --> K
     S --> O
