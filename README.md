@@ -5,13 +5,6 @@
 ![LightGBM](https://img.shields.io/badge/ML-LightGBM-green)
 ![Status](https://img.shields.io/badge/Status-Production--Style-success)
 
-# AI-Driven Bike Fleet Relocation System
-
-![Python](https://img.shields.io/badge/Python-3.12.8-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-Live-red)
-![LightGBM](https://img.shields.io/badge/ML-LightGBM-green)
-![Status](https://img.shields.io/badge/Status-Production--Style-success)
-
 End-to-end Machine Learning and operational analytics system for predicting daily bike station risk and supporting bike fleet relocation decisions in a smart city environment.
 
 ## Live Application
