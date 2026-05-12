@@ -6,6 +6,32 @@ End-to-end Machine Learning and operational analytics system for predicting dail
 
 Streamlit Cloud: https://robert-basinski-system-relokacji.streamlit.app/
 
+## Application Preview
+
+### Operational Dashboard
+
+![Operational Dashboard](docs/screenshots/dashboard-main.png)
+
+### Operational Plan KPIs
+
+![Operational Plan KPIs](docs/screenshots/operational-plan-kpis.png)
+
+### Microzone Operations
+
+![Microzone Operations](docs/screenshots/microzone-operational-table.png)
+
+### Station Map View
+
+![Station Map View](docs/screenshots/station-map-view.png)
+
+### Driver Card Module
+
+![Driver Card Module](docs/screenshots/driver-card-module.png)
+
+### Execution Status Dashboard
+
+![Execution Status Dashboard](docs/screenshots/execution-status-dashboard.png)
+
 ## Project Overview
 
 This project combines:
