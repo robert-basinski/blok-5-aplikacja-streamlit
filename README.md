@@ -80,8 +80,7 @@ The system predicts station-level operational risk and supports dispatchers in d
 
 ### Key Operational Capabilities
 
-- Bike relocation planning and prioritization
-- Risk-based station prioritization
+- Risk-based station prioritization and relocation planning
 - Microzone balancing strategy
 - Forecast-supported operational recommendations
 - Dispatcher decision support
@@ -201,8 +200,9 @@ The application uses prepared model and operational artifacts stored in the repo
 ```text
 app/
 ├── app_main.py
-├── 1_Panel_Dyspozytora.py
-└── 2_Panel_Techniczny.py
+└── pages/
+    ├── 1_Panel_Dyspozytora.py
+    └── 2_Panel_Techniczny.py
 
 notebooks/
 ├── 1_EDA_Preprocessing.ipynb
