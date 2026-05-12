@@ -27,15 +27,15 @@ End-to-end Machine Learning and operational analytics system for predicting dail
 
 ### Station Map View
 
-<img src="docs/screenshots/station-map-view.png" width="850">
+<img src="docs/screenshots/station-map-view.png" width="800">
 
 ### Driver Card Module
 
-<img src="docs/screenshots/driver-card-module.png" width="850">
+<img src="docs/screenshots/driver-card-module.png" width="800">
 
 ### Execution Status Dashboard
 
-<img src="docs/screenshots/execution-status-dashboard.png" width="850">
+<img src="docs/screenshots/execution-status-dashboard.png" width="800">
 
 ## Project Overview
 
