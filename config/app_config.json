@@ -1,1 +1,17 @@
-
+{
+  "project_name": "AI-Driven Bike Fleet Relocation System",
+  "application_name": "System relokacji rowerów",
+  "deployment_type": "Streamlit Cloud",
+  "interface_language": "pl",
+  "data_mode": "historical_replay",
+  "historical_data_range": {
+    "start_year": 2017,
+    "end_year": 2020
+  },
+  "main_app": "app/app_main.py",
+  "operational_panel": "app/1_Panel_Dyspozytora.py",
+  "technical_panel": "app/2_Panel_Techniczny.py",
+  "model_type": "LightGBM classification",
+  "risk_grain": "day-station",
+  "map_engine": "Folium"
+}
