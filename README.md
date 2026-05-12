@@ -162,7 +162,7 @@ The project is structured into six logical workflow blocks:
 - Folium
 - Plotly
 - Parquet
-- GitHub Actions ready architecture
+- GitHub-ready repository architecture
 
 ### Machine Learning & Analytics
 
@@ -242,6 +242,7 @@ app_runtime/
 requirements.txt
 README.md
 ```
+
 ## System Architecture
 
 👉 Full architecture diagram: [View System Architecture](docs/architecture/system_architecture.md)
