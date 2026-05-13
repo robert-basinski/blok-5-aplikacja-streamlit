@@ -973,6 +973,76 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
     }
 }
 
+
+/* mobile-dispatcher-tab-full-text-compact-v4 */
+@media (max-width: 768px) {
+    div[data-testid="stTabs"] button[role="tab"] {
+        min-height: 132px !important;
+        height: 132px !important;
+        padding: 0.55rem 0.42rem 0.52rem 0.42rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]::before {
+        position: static !important;
+        width: 1.72rem !important;
+        height: 1.72rem !important;
+        font-size: 0.88rem !important;
+        margin: 0 auto 0.22rem auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"] span {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 0 0 0.22rem 0 !important;
+        padding: 0 !important;
+        font-size: 0.69rem !important;
+        line-height: 1.08 !important;
+        text-align: center !important;
+        white-space: normal !important;
+        flex: 0 0 auto !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]::after {
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 0.54rem !important;
+        font-weight: 500 !important;
+        line-height: 1.13 !important;
+        color: #64748b !important;
+        text-align: center !important;
+        white-space: pre-line !important;
+        overflow: hidden !important;
+        flex: 0 0 auto !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1)::after {
+        content: "Zobacz priorytety relokacji,\\A rekomendacje działań i kluczowe\\A informacje na dzisiaj." !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2)::after {
+        content: "Sprawdź swoje zadania, trasę\\A dnia i szczegóły realizacji\\A relokacji." !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3)::after {
+        content: "Monitoruj postęp realizacji zadań\\A i analizuj wyniki działań\\A w terenie." !important;
+    }
+}
+
 </style>
 
 <div class="dispatcher-hero">
