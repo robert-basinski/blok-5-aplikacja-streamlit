@@ -1075,15 +1075,268 @@ with tab_plan:
         unsafe_allow_html=True,
     )
 
-    st.markdown("### Mapa stacji")
+    if daily_actions_df.empty:
+        st.info("Brak działań dla wybranych filtrów.")
+    else:
+        st.markdown("### Rejony miasta")
 
-    try:
-        station_action_map = build_station_action_map(plan_scope_df)
-        map_html = station_action_map.get_root().render()
-        components.html(map_html, height=480, scrolling=False)
-    except Exception as exc:
-        st.warning("Nie udało się zbudować mapy stacji dla aktualnego widoku.")
-        st.error(str(exc))
+        plan_region_source_df = daily_actions_df.copy()
+
+        plan_region_source_df["deliver_units_for_region"] = 0
+        plan_region_source_df["remove_units_for_region"] = 0
+
+        plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "deliver_bikes",
+            "deliver_units_for_region",
+        ] = plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "deliver_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
+
+        plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "remove_bikes",
+            "remove_units_for_region",
+        ] = plan_region_source_df.loc[
+            plan_region_source_df["recommended_action"] == "remove_bikes",
+            "estimated_relocation_units",
+        ].fillna(0)
+
+        plan_region_table_df = (
+            plan_region_source_df.groupby("microzone_id", as_index=False)
+            .agg(
+                station_count=("microzone_id", "count"),
+                estimated_deliver_units=("deliver_units_for_region", "sum"),
+                estimated_remove_units=("remove_units_for_region", "sum"),
+                expected_business_impact=("expected_business_impact", "sum"),
+                top_daily_plan_rank=("daily_plan_rank", "min"),
+            )
+            .rename(
+                columns={
+                    "microzone_id": "Rejon miasta",
+                    "station_count": "Stacje do obsługi",
+                    "estimated_deliver_units": "Dowieźć",
+                    "estimated_remove_units": "Zabrać",
+                    "expected_business_impact": "Potencjał",
+                    "top_daily_plan_rank": "Najwyższy priorytet",
+                }
+            )
+        )
+
+        plan_region_table_df["Liczba stacji"] = plan_region_table_df["Stacje do obsługi"]
+        plan_region_table_df["Bilans"] = (
+            plan_region_table_df["Zabrać"] - plan_region_table_df["Dowieźć"]
+        )
+
+        plan_region_table_df["Kierunek"] = "zbilansowany"
+        plan_region_table_df.loc[
+            plan_region_table_df["Bilans"] < 0,
+            "Kierunek",
+        ] = "potrzeba dowozu"
+        plan_region_table_df.loc[
+            plan_region_table_df["Bilans"] > 0,
+            "Kierunek",
+        ] = "potrzeba odbioru"
+
+        plan_region_table_df = (
+            plan_region_table_df.sort_values(
+                ["Dowieźć", "Zabrać", "Bilans", "Potencjał"],
+                ascending=[False, False, True, False],
+            )
+            .head(100)
+            .copy()
+            .reset_index(drop=True)
+        )
+
+        plan_region_table_df["Potencjał"] = plan_region_table_df["Potencjał"].round(2)
+
+        plan_region_columns = [
+            "Rejon miasta",
+            "Liczba stacji",
+            "Stacje do obsługi",
+            "Dowieźć",
+            "Zabrać",
+            "Bilans",
+            "Kierunek",
+        ]
+
+        plan_region_event = st.dataframe(
+            plan_region_table_df[plan_region_columns],
+            width="stretch",
+            height=300,
+            hide_index=True,
+            key="plan_region_table",
+            on_select="rerun",
+            selection_mode="single-row",
+            column_config={
+                "Rejon miasta": st.column_config.TextColumn("Rejon miasta", width=125),
+                "Liczba stacji": st.column_config.NumberColumn("Liczba stacji", width=95),
+                "Stacje do obsługi": st.column_config.NumberColumn("Stacje do obsługi", width=130),
+                "Dowieźć": st.column_config.NumberColumn("Dowieźć", width=85),
+                "Zabrać": st.column_config.NumberColumn("Zabrać", width=85),
+                "Bilans": st.column_config.NumberColumn("Bilans", width=85),
+                "Kierunek": st.column_config.TextColumn("Kierunek", width=150),
+            },
+        )
+
+        selected_plan_rows = plan_region_event.selection.rows
+
+        selected_plan_region = None
+        if selected_plan_rows:
+            selected_plan_region = str(
+                plan_region_table_df.iloc[selected_plan_rows[0]]["Rejon miasta"]
+            )
+
+        if selected_plan_region:
+            plan_scope_df = daily_actions_df.loc[
+                daily_actions_df["microzone_id"].astype(str) == selected_plan_region
+            ].copy()
+            plan_scope_label = f"Wybrany rejon: {selected_plan_region}"
+        else:
+            plan_scope_df = daily_actions_df.copy()
+            plan_scope_label = "Wszystkie rejony z aktualnych filtrów"
+
+        plan_scope_view_df = build_operational_view(plan_scope_df)
+
+        st.markdown("### Kolejność zadań")
+
+        if "plan_order_mode" not in st.session_state:
+            st.session_state["plan_order_mode"] = "impact"
+
+        order_col_1, order_col_2, order_col_3 = st.columns(3)
+
+        with order_col_1:
+            if st.button(
+                "Potencjał operacyjny",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "impact" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "impact"
+                st.rerun()
+
+        with order_col_2:
+            if st.button(
+                "Pilność + godzina",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "priority" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "priority"
+                st.rerun()
+
+        with order_col_3:
+            if st.button(
+                "Godzina ryzyka",
+                use_container_width=True,
+                type="primary" if st.session_state["plan_order_mode"] == "hour" else "secondary",
+            ):
+                st.session_state["plan_order_mode"] = "hour"
+                st.rerun()
+
+        priority_sort_map = {
+            "bardzo wysoki": 1,
+            "wysoki": 2,
+            "średni": 3,
+            "niski": 4,
+        }
+
+        if not plan_scope_view_df.empty:
+            plan_scope_view_df["priority_sort"] = (
+                plan_scope_view_df["Pilność"]
+                .map(priority_sort_map)
+                .fillna(99)
+                .astype(int)
+            )
+
+            plan_scope_view_df["risk_hour_sort"] = pd.to_datetime(
+                plan_scope_view_df["Godzina ryzyka"].astype(str),
+                format="%H:%M",
+                errors="coerce",
+            )
+
+            if st.session_state["plan_order_mode"] == "priority":
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["priority_sort", "risk_hour_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            elif st.session_state["plan_order_mode"] == "hour":
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["risk_hour_sort", "priority_sort", "Potencjał", "Lp."],
+                    ascending=[True, True, False, True],
+                ).copy()
+
+            else:
+                plan_scope_view_df = plan_scope_view_df.sort_values(
+                    ["Potencjał", "priority_sort", "risk_hour_sort", "Lp."],
+                    ascending=[False, True, True, True],
+                ).copy()
+
+            plan_scope_view_df = (
+                plan_scope_view_df.drop(
+                    columns=["priority_sort", "risk_hour_sort"],
+                    errors="ignore",
+                )
+                .reset_index(drop=True)
+            )
+
+        plan_station_count = int(plan_scope_df.shape[0])
+        plan_deliver_sum = int(
+            plan_scope_df.loc[
+                plan_scope_df["recommended_action"] == "deliver_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        plan_remove_sum = int(
+            plan_scope_df.loc[
+                plan_scope_df["recommended_action"] == "remove_bikes",
+                "estimated_relocation_units",
+            ]
+            .fillna(0)
+            .sum()
+        )
+        plan_balance = plan_remove_sum - plan_deliver_sum
+
+        st.markdown("### Widok wybranego zakresu")
+        st.caption(plan_scope_label)
+
+        st.markdown(
+            f"""
+            <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0.7rem; margin:0.7rem 0 0.8rem 0;">
+                <div style="border:1px solid #e5e7eb; border-radius:14px; padding:0.65rem 0.85rem; background:#f9fafb;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Stacje</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_station_count}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">po aktualnym wyborze</div>
+                </div>
+                <div style="border:1px solid #fed7aa; border-radius:14px; padding:0.65rem 0.85rem; background:#fff7ed;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Dowieźć</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_deliver_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #bfdbfe; border-radius:14px; padding:0.65rem 0.85rem; background:#eff6ff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Zabrać</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_remove_sum}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                </div>
+                <div style="border:1px solid #d1d5db; border-radius:14px; padding:0.65rem 0.85rem; background:#ffffff;">
+                    <div style="font-size:0.78rem; color:#6b7280;">Bilans</div>
+                    <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_balance}</div>
+                    <div style="font-size:0.72rem; color:#6b7280;">ujemny = potrzeba dowozu</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.markdown("### Mapa stacji")
+
+        try:
+            station_action_map = build_station_action_map(plan_scope_df)
+            map_html = station_action_map.get_root().render()
+            components.html(map_html, height=480, scrolling=False)
+        except Exception as exc:
+            st.warning("Nie udało się zbudować mapy stacji dla aktualnego widoku.")
+            st.error(str(exc))
 
         st.markdown("### Stacje do obsługi")
 
