@@ -859,6 +859,51 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
         min-height: 1.05rem;
     }
 }
+
+/* mobile-dispatcher-tab-text-v1 */
+@media (max-width: 768px) {
+    div[data-testid="stTabs"] button[role="tab"] {
+        min-height: 168px !important;
+        height: auto !important;
+        padding: 0.95rem 0.65rem 1.05rem 0.65rem !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        overflow: visible !important;
+        gap: 0 !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]::before {
+        margin-bottom: 0.45rem !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"] span {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 0.1rem !important;
+        margin-bottom: 0.45rem !important;
+        text-align: center !important;
+        line-height: 1.2 !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"]::after {
+        display: block !important;
+        position: static !important;
+        margin-top: 0.15rem !important;
+        font-size: 0.84rem !important;
+        line-height: 1.35 !important;
+        white-space: pre-line !important;
+        text-align: left !important;
+        color: #64748b !important;
+        width: 100% !important;
+        padding: 0 0.1rem !important;
+    }
+
+    div[data-testid="stTabs"] button[role="tab"] span::after {
+        right: 0.8rem !important;
+        bottom: 0.8rem !important;
+    }
+}
+
 </style>
 
 <div class="dispatcher-hero">
