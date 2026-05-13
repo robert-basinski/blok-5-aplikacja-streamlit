@@ -961,15 +961,15 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
     }
 
     div[data-testid="stTabs"] button[role="tab"]:nth-of-type(1)::after {
-        content: "Priorytety relokacji\\A rekomendacje działań\\A informacje na dziś." !important;
+        content: "Zobacz priorytety relokacji,\\A rekomendacje działań i kluczowe\\A informacje na dzisiaj." !important;
     }
 
     div[data-testid="stTabs"] button[role="tab"]:nth-of-type(2)::after {
-        content: "Zadania kierowcy\\A trasa dnia\\A szczegóły relokacji." !important;
+        content: "Sprawdź swoje zadania, trasę\\A dnia i szczegóły realizacji\\A relokacji." !important;
     }
 
     div[data-testid="stTabs"] button[role="tab"]:nth-of-type(3)::after {
-        content: "Postęp realizacji\\A statusy zadań\\A wyniki w terenie." !important;
+        content: "Monitoruj postęp realizacji zadań\\A i analizuj wyniki działań\\A w terenie." !important;
     }
 }
 
