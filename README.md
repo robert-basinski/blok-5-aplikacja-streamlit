@@ -281,7 +281,7 @@ The goal of the project is to support operational bike fleet management in urban
 
 ## Production-Like Scope and Live Data Extension
 
-This project was built as a production-like batch Machine Learning decision-support system based on historical Helsinki City Bikes data. The dataset contains over 10 million bike trips from 2016–2020, which made it possible to design realistic analytical layers, feature engineering, model scoring, operational recommendations and a Streamlit-based dispatcher application.
+This project was built as a production-like batch Machine Learning decision-support system based on the public Helsinki City Bikes dataset. The dataset contains over 10 million bike trips from 2016–2020, which made it possible to design realistic analytical layers, feature engineering, model scoring, operational recommendations and a Streamlit-based dispatcher application.
 
 The current application does not pretend to be a live production system. A fully live version would require access to current operator data, including live station occupancy, available bikes, empty docks, current trips, API access, scheduled data ingestion and data quality monitoring.
 
