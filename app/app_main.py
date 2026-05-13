@@ -73,6 +73,26 @@ def render_system_info() -> None:
             padding:0.95rem 1rem;
             background:#ffffff;
         }
+
+        .system-mini-card:nth-child(1) {
+            border-color:#bfdbfe;
+            border-bottom:4px solid #2563eb;
+            background:linear-gradient(135deg,#eff6ff 0%,#ffffff 72%);
+            box-shadow:0 12px 28px rgba(37,99,235,0.07);
+        }
+        .system-mini-card:nth-child(2) {
+            border-color:#cbd5e1;
+            border-bottom:4px solid #64748b;
+            background:linear-gradient(135deg,#f8fafc 0%,#ffffff 72%);
+            box-shadow:0 12px 28px rgba(100,116,139,0.07);
+        }
+        .system-mini-card:nth-child(3) {
+            border-color:#c7d2fe;
+            border-bottom:4px solid #4f46e5;
+            background:linear-gradient(135deg,#eef2ff 0%,#ffffff 72%);
+            box-shadow:0 12px 28px rgba(79,70,229,0.07);
+        }
+
         .system-mini-label {
             font-size:0.82rem;
             color:#64748b;
@@ -317,12 +337,12 @@ def render_system_info() -> None:
     st.markdown(
         """
         <div class="system-flow-grid">
-            <div class="system-flow-card" style="border:1px solid #dbeafe; background:#eff6ff; color:#1e3a8a;">Dane</div>
-            <div class="system-flow-card" style="border:1px solid #e5e7eb; background:#ffffff; color:#0f172a;">Walidacja</div>
-            <div class="system-flow-card" style="border:1px solid #e5e7eb; background:#ffffff; color:#0f172a;">Scoring</div>
-            <div class="system-flow-card" style="border:1px solid #fee2e2; background:#fff1f2; color:#991b1b;">Priorytety</div>
-            <div class="system-flow-card" style="border:1px solid #dcfce7; background:#f0fdf4; color:#166534;">Zadania</div>
-            <div class="system-flow-card" style="border:1px solid #fef3c7; background:#fffbeb; color:#92400e;">Status</div>
+            <div class="system-flow-card" style="border:1px solid #bfdbfe; background:linear-gradient(135deg,#eff6ff 0%,#ffffff 72%); color:#0f172a;">Dane</div>
+            <div class="system-flow-card" style="border:1px solid #ddd6fe; background:linear-gradient(135deg,#f5f3ff 0%,#ffffff 72%); color:#0f172a;">Walidacja</div>
+            <div class="system-flow-card" style="border:1px solid #bae6fd; background:linear-gradient(135deg,#ecfeff 0%,#ffffff 72%); color:#0f172a;">Scoring</div>
+            <div class="system-flow-card" style="border:1px solid #fecaca; background:linear-gradient(135deg,#fff1f2 0%,#ffffff 72%); color:#0f172a;">Priorytety</div>
+            <div class="system-flow-card" style="border:1px solid #bbf7d0; background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 72%); color:#0f172a;">Zadania</div>
+            <div class="system-flow-card" style="border:1px solid #fde68a; background:linear-gradient(135deg,#fffbeb 0%,#ffffff 72%); color:#0f172a;">Status</div>
         </div>
         """,
         unsafe_allow_html=True,
