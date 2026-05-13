@@ -1306,22 +1306,22 @@ with tab_plan:
                 <div style="border:1px solid #cbd5e1; border-bottom:3px solid #94a3b8; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#f8fafc 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(100,116,139,0.06);">
                     <div style="font-size:0.78rem; color:#6b7280;">Stacje</div>
                     <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_station_count}</div>
-                    <div style="font-size:0.72rem; color:#6b7280;">po aktualnym wyborze</div>
+                    <div style="font-size:0.72rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">po aktualnym wyborze</div>
                 </div>
                 <div style="border:1px solid #fed7aa; border-bottom:3px solid #fdba74; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#fff7ed 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(249,115,22,0.06);">
                     <div style="font-size:0.78rem; color:#6b7280;">Dowieźć</div>
                     <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_deliver_sum}</div>
-                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                    <div style="font-size:0.72rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">rowerów</div>
                 </div>
                 <div style="border:1px solid #bfdbfe; border-bottom:3px solid #60a5fa; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#eff6ff 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(37,99,235,0.06);">
                     <div style="font-size:0.78rem; color:#6b7280;">Zabrać</div>
                     <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_remove_sum}</div>
-                    <div style="font-size:0.72rem; color:#6b7280;">rowerów</div>
+                    <div style="font-size:0.72rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">rowerów</div>
                 </div>
                 <div style="border:1px solid #cbd5e1; border-bottom:3px solid #64748b; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#f8fafc 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(100,116,139,0.06);">
                     <div style="font-size:0.78rem; color:#6b7280;">Bilans</div>
                     <div style="font-size:1.45rem; font-weight:800; color:#111827;">{plan_balance}</div>
-                    <div style="font-size:0.72rem; color:#6b7280;">ujemny = potrzeba dowozu</div>
+                    <div style="font-size:0.72rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">ujemny = potrzeba dowozu</div>
                 </div>
             </div>
             """,
@@ -1974,22 +1974,22 @@ with tab_feedback:
                     f"""
                     <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0.7rem; margin:0.7rem 0 1rem 0;">
                         <div style="border:1px solid #c7d2fe; border-bottom:3px solid #818cf8; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#eef2ff 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(79,70,229,0.06);">
-                            <div style="font-size:0.78rem; color:#6b7280;">Aktywne rejony</div>
+                            <div style="font-size:0.78rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">Aktywne<br>rejony</div>
                             <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_regions}</div>
                             <div style="font-size:0.72rem; color:#6b7280;">z ruchem w terenie</div>
                         </div>
                         <div style="border:1px solid #bfdbfe; border-bottom:3px solid #60a5fa; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#eff6ff 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(37,99,235,0.06);">
-                            <div style="font-size:0.78rem; color:#6b7280;">Podjęte</div>
+                            <div style="font-size:0.78rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">Podjęte</div>
                             <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_started}</div>
                             <div style="font-size:0.72rem; color:#6b7280;">przyjęte / wykonane / błąd</div>
                         </div>
                         <div style="border:1px solid #bbf7d0; border-bottom:3px solid #22c55e; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(22,163,74,0.06);">
-                            <div style="font-size:0.78rem; color:#6b7280;">Wykonane</div>
+                            <div style="font-size:0.78rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">Wykonane</div>
                             <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_done}</div>
                             <div style="font-size:0.72rem; color:#6b7280;">zamknięte zadania</div>
                         </div>
                         <div style="border:1px solid #fed7aa; border-bottom:3px solid #fdba74; border-radius:14px; padding:0.65rem 0.85rem; background:linear-gradient(135deg,#fff7ed 0%,#ffffff 72%); box-shadow:0 10px 22px rgba(249,115,22,0.06);">
-                            <div style="font-size:0.78rem; color:#6b7280;">Oczekuje</div>
+                            <div style="font-size:0.78rem; color:#6b7280; min-height:2.05rem; line-height:1.25;">Oczekuje</div>
                             <div style="font-size:1.45rem; font-weight:800; color:#111827;">{total_waiting}</div>
                             <div style="font-size:0.72rem; color:#6b7280;">jeszcze bez statusu</div>
                         </div>
