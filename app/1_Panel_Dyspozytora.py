@@ -866,8 +866,8 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 @media (max-width: 768px) {
     div[data-testid="stTabs"] button[role="tab"] {
         position: relative !important;
-        height: 154px !important;
-        min-height: 154px !important;
+        height: 162px !important;
+        min-height: 162px !important;
         padding: 0 !important;
         overflow: hidden !important;
         display: block !important;
@@ -875,7 +875,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 
     div[data-testid="stTabs"] button[role="tab"]::before {
         position: absolute !important;
-        top: 0.58rem !important;
+        top: 0.48rem !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: 1.95rem !important;
@@ -893,7 +893,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 
     div[data-testid="stTabs"] button[role="tab"] span {
         position: absolute !important;
-        top: 3.58rem !important;
+        top: 3.95rem !important;
         left: 0.25rem !important;
         right: 0.25rem !important;
         display: block !important;
@@ -916,7 +916,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 
     div[data-testid="stTabs"] button[role="tab"]::after {
         position: absolute !important;
-        top: 4.95rem !important;
+        top: 5.28rem !important;
         left: 0.34rem !important;
         right: 0.34rem !important;
         display: block !important;
