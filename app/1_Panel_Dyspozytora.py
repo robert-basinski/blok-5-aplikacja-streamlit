@@ -893,7 +893,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 
     div[data-testid="stTabs"] button[role="tab"] span {
         position: absolute !important;
-        top: 3.95rem !important;
+        top: 4.25rem !important;
         left: 0.25rem !important;
         right: 0.25rem !important;
         display: block !important;
@@ -916,7 +916,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
 
     div[data-testid="stTabs"] button[role="tab"]::after {
         position: absolute !important;
-        top: 5.28rem !important;
+        top: 5.32rem !important;
         left: 0.34rem !important;
         right: 0.34rem !important;
         display: block !important;
