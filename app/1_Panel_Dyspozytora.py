@@ -796,8 +796,8 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
     }
 
     div[data-testid="stTabs"] button[role="tab"] {
-        height: 4.9rem;
-        min-height: 4.9rem;
+        height: 5.55rem;
+        min-height: 5.55rem;
         border-radius: 13px;
         box-shadow: 0 7px 16px rgba(15, 23, 42, 0.055);
     }
@@ -812,7 +812,7 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
     div[data-testid="stTabs"] button[role="tab"] p {
         left: 0.22rem;
         right: 0.22rem;
-        top: 2.25rem;
+        top: 2.62rem;
         font-size: 0.68rem;
         line-height: 1.12;
         text-align: center;
