@@ -60,6 +60,94 @@ def run_streamlit_module(module_path: Path) -> None:
 def render_system_info() -> None:
     st.markdown(
         """
+        <style id="system-mobile-fix-v1">
+        .system-mini-grid {
+            display:grid;
+            grid-template-columns:repeat(3, minmax(0, 1fr));
+            gap:1rem;
+            margin:1rem 0 1.6rem 0;
+        }
+        .system-mini-card {
+            border:1px solid #e5e7eb;
+            border-radius:18px;
+            padding:0.95rem 1rem;
+            background:#ffffff;
+        }
+        .system-mini-label {
+            font-size:0.82rem;
+            color:#64748b;
+            font-weight:700;
+            margin-bottom:0.35rem;
+            line-height:1.25;
+        }
+        .system-mini-value {
+            font-size:1.2rem;
+            color:#111827;
+            font-weight:900;
+            line-height:1.25;
+        }
+        .system-flow-grid {
+            display:grid;
+            grid-template-columns:repeat(6, minmax(0, 1fr));
+            gap:0.7rem;
+            margin:0.8rem 0 1.5rem 0;
+        }
+        .system-flow-card {
+            border-radius:16px;
+            padding:0.9rem;
+            text-align:center;
+            font-weight:850;
+            color:#0f172a;
+            min-height:72px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            line-height:1.15;
+            overflow-wrap:anywhere;
+        }
+        @media (max-width: 640px) {
+            .system-mini-grid {
+                grid-template-columns:repeat(3, minmax(0, 1fr));
+                gap:0.55rem;
+                margin:0.8rem 0 1.35rem 0;
+            }
+            .system-mini-card {
+                border-radius:14px;
+                padding:0.7rem 0.45rem;
+                min-height:6.1rem;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                text-align:center;
+            }
+            .system-mini-label {
+                font-size:0.66rem;
+                line-height:1.15;
+                margin-bottom:0.45rem;
+            }
+            .system-mini-value {
+                font-size:0.9rem;
+                line-height:1.18;
+            }
+            .system-flow-grid {
+                grid-template-columns:repeat(3, minmax(0, 1fr));
+                gap:0.55rem;
+                margin:0.75rem 0 1.35rem 0;
+            }
+            .system-flow-card {
+                border-radius:14px;
+                padding:0.65rem 0.35rem;
+                min-height:4.4rem;
+                font-size:0.78rem;
+                line-height:1.15;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
         <div style="border:1px solid #cbd5e1; border-radius:24px; background:linear-gradient(135deg,#ffffff 0%,#f8fafc 100%); padding:1.7rem 1.9rem; margin-bottom:1.4rem; box-shadow:0 16px 38px rgba(15,23,42,0.07);">
             <div style="font-size:2.15rem; font-weight:950; color:#0f172a; margin-bottom:0.55rem;">
                 O systemie
@@ -107,18 +195,18 @@ def render_system_info() -> None:
 
     st.markdown(
         """
-        <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:1rem; margin:1rem 0 1.6rem 0;">
-            <div style="border:1px solid #e5e7eb; border-radius:18px; padding:0.95rem 1rem; background:#ffffff;">
-                <div style="font-size:0.82rem; color:#64748b; font-weight:700; margin-bottom:0.35rem;">Typ aplikacji</div>
-                <div style="font-size:1.2rem; color:#111827; font-weight:900;">System operacyjny</div>
+        <div class="system-mini-grid">
+            <div class="system-mini-card">
+                <div class="system-mini-label">Typ aplikacji</div>
+                <div class="system-mini-value">System<br>operacyjny</div>
             </div>
-            <div style="border:1px solid #e5e7eb; border-radius:18px; padding:0.95rem 1rem; background:#ffffff;">
-                <div style="font-size:0.82rem; color:#64748b; font-weight:700; margin-bottom:0.35rem;">Zakres danych</div>
-                <div style="font-size:1.2rem; color:#111827; font-weight:900;">2017–2020</div>
+            <div class="system-mini-card">
+                <div class="system-mini-label">Zakres danych</div>
+                <div class="system-mini-value">2017–2020</div>
             </div>
-            <div style="border:1px solid #e5e7eb; border-radius:18px; padding:0.95rem 1rem; background:#ffffff;">
-                <div style="font-size:0.82rem; color:#64748b; font-weight:700; margin-bottom:0.35rem;">Tryb pracy</div>
-                <div style="font-size:1.2rem; color:#111827; font-weight:900;">Replay historyczny</div>
+            <div class="system-mini-card">
+                <div class="system-mini-label">Tryb pracy</div>
+                <div class="system-mini-value">Replay<br>historyczny</div>
             </div>
         </div>
         """,
@@ -158,13 +246,13 @@ def render_system_info() -> None:
 
     st.markdown(
         """
-        <div style="display:grid; grid-template-columns:repeat(6, minmax(0, 1fr)); gap:0.7rem; margin:0.8rem 0 1.5rem 0;">
-            <div style="border:1px solid #dbeafe; background:#eff6ff; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#1e3a8a;">Dane</div>
-            <div style="border:1px solid #e5e7eb; background:#ffffff; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#0f172a;">Walidacja</div>
-            <div style="border:1px solid #e5e7eb; background:#ffffff; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#0f172a;">Scoring</div>
-            <div style="border:1px solid #fee2e2; background:#fff1f2; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#991b1b;">Priorytety</div>
-            <div style="border:1px solid #dcfce7; background:#f0fdf4; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#166534;">Zadania</div>
-            <div style="border:1px solid #fef3c7; background:#fffbeb; border-radius:16px; padding:0.9rem; text-align:center; font-weight:850; color:#92400e;">Status</div>
+        <div class="system-flow-grid">
+            <div class="system-flow-card" style="border:1px solid #dbeafe; background:#eff6ff; color:#1e3a8a;">Dane</div>
+            <div class="system-flow-card" style="border:1px solid #e5e7eb; background:#ffffff; color:#0f172a;">Walidacja</div>
+            <div class="system-flow-card" style="border:1px solid #e5e7eb; background:#ffffff; color:#0f172a;">Scoring</div>
+            <div class="system-flow-card" style="border:1px solid #fee2e2; background:#fff1f2; color:#991b1b;">Priorytety</div>
+            <div class="system-flow-card" style="border:1px solid #dcfce7; background:#f0fdf4; color:#166534;">Zadania</div>
+            <div class="system-flow-card" style="border:1px solid #fef3c7; background:#fffbeb; color:#92400e;">Status</div>
         </div>
         """,
         unsafe_allow_html=True,
