@@ -4,12 +4,42 @@ import re
 import pandas as pd
 import textwrap
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 st.set_page_config(
     page_title="System relokacji rowerów",
     layout="wide",
 )
+
+components.html(
+    """
+    <script>
+    (function() {
+        const marker = "mobile-viewport-zoom-test";
+        const doc = window.parent.document;
+        let viewport = doc.querySelector('meta[name="viewport"]');
+
+        if (!viewport) {
+            viewport = doc.createElement("meta");
+            viewport.setAttribute("name", "viewport");
+            doc.head.appendChild(viewport);
+        }
+
+        viewport.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes"
+        );
+
+        doc.documentElement.style.touchAction = "auto";
+        doc.body.style.touchAction = "auto";
+    })();
+    </script>
+    """,
+    height=0,
+    width=0,
+)
+
 
 
 APP_DIR = Path(__file__).resolve().parent
