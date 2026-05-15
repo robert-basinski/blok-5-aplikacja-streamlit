@@ -589,7 +589,7 @@ if run_scoring:
         save_parquet_data(runtime_scored_df, RUNTIME_PREDICTIONS_PATH)
 
         runtime_runlog_payload = {
-            "app_name": "aplikacja_dzien_stacja.py",
+            "app_name": "2_Panel_Techniczny.py",
             "model_name": model_name,
             "model_release_tag": model_release_tag,
             "scoring_mode": selected_mode,
@@ -911,7 +911,7 @@ with tab3:
 )
     
 checklist_payload = {
-    "app_name": "aplikacja_dzien_stacja.py",
+    "app_name": "2_Panel_Techniczny.py",
     "model_name": model_name,
     "model_release_tag": model_release_tag,
     "scoring_date": current_loaded_scoring_date,
@@ -921,9 +921,9 @@ checklist_payload = {
 save_json_data(checklist_payload, CHECKLIST_PATH)
 
 runbook_payload = {
-    "app_name": "aplikacja_dzien_stacja.py",
+    "app_name": "2_Panel_Techniczny.py",
     "technology": "streamlit",
-    "entrypoint": str(APP_DIR / "aplikacja_dzien_stacja.py"),
+    "entrypoint": str(APP_DIR / "2_Panel_Techniczny.py"),
     "local_url": "http://localhost:8501",
     "required_artifacts": {
         "best_model": str(BEST_MODEL_PATH),
